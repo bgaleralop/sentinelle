@@ -17,8 +17,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface BlacklistDao {
     // Retorna un Flow. Room emitirá una nueva lista automáticamente cada vez que la tabla cambie.
-    @Query("SELECT word FROM blacklist_words ORDER BY word ASC")
-    fun getAllWords(): Flow<List<String>>
+    @Query("SELECT * FROM blacklist_words ORDER BY word ASC")
+    fun getAllWords(): Flow<List<BlacklistEntity>>
 
     // Operación asíncrona (suspend) para no bloquear el hilo principal.
     @Insert(onConflict = OnConflictStrategy.REPLACE)
