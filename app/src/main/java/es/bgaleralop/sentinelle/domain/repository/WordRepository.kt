@@ -12,6 +12,6 @@ import kotlinx.coroutines.flow.Flow
 interface WordRepository {
     fun getBlacklist(): Flow<List<Word>>
     fun getBlacklistByAccount(accountId: Long): Flow<List<Word>>
-    suspend fun addWord(word: Word)
+    suspend fun addWord(word: Word): Result<Unit>
     suspend fun deleteWord(word: Word)
 }

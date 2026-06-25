@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.callbackFlow
 /**
  * @author Bartolomé Galear López (bgaleralop)
  * @date 24-06-2026
+ *
+ * Class that manage the encrypted preferences
  */
 class EncryptedPreferencesManager(context: Context) {
     private val masterKey = MasterKey.Builder(context)

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
  * Contract to the strict control of trolls and automatic/manual banned.
  */
 interface BannedUserRepository {
-    fun getBannedUserByAccount(accountId: Long): Flow<List<BannedUser>>
+    fun getBannedUsersByAccount(accountId: Long): Flow<List<BannedUser>>
     suspend fun banUser(user: BannedUser)
     suspend fun unbanUser(platformUserId: String, accountId: Long)
     suspend fun isUserBanned(platformUserId: String, accountId: Long): Boolean

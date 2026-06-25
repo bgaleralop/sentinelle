@@ -1,0 +1,44 @@
+package es.bgaleralop.sentinelle.data.repository
+
+import es.bgaleralop.sentinelle.data.local.dao.AccountDao
+import es.bgaleralop.sentinelle.data.local.mappers.toDomain
+import es.bgaleralop.sentinelle.data.local.mappers.toEntity
+import es.bgaleralop.sentinelle.domain.model.SentinelleAccount
+import es.bgaleralop.sentinelle.domain.repository.AccountRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
+
+/**
+ * @author Bartolomé Galera López (bgaleralop)
+ * @date 25-06-2026
+ *
+ * Implementation of AccountRepository to access room database.
+ */
+class AccountRepositoryImpl(
+    private val accountDao: AccountDao
+) : AccountRepository {
+    override fun getActiveAccounts(): Flow<List<SentinelleAccount>> {
+        return accountDao.getActiveAccounts().map { list -> list.map { it.toDomain()} }
+            .flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun getAccountById(id: Long): SentinelleAccount? = withContext(Dispatchers.IO) {
+            return@withContext accountDao.getAccountById(id)?.toDomain()
+        }
+
+
+    override suspend fun addAccount(account: SentinelleAccount): Result<Unit>  = withContext(Dispatchers.IO) {
+        runCatching { accountDao.insertAccount(account.toEntity()) }
+    }
+
+    override suspend fun deleteAccount(accountId: Long) = withContext(Dispatchers.IO) {
+        accountDao.deleteAccount(accountId)
+    }
+
+    override suspend fun getAccountCount(): Int = withContext(Dispatchers.IO) {
+        accountDao.getAccountCount()
+    }
+}

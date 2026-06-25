@@ -53,6 +53,12 @@ fun Word.toEntity() = BlacklistEntity(
     action = action.name
 )
 
+fun Word.toNewEntity() = BlacklistEntity(
+    accountId = accountId,
+    word = word,
+    action = action.name
+)
+
 fun ModerationLogEntity.toDomain() = ModerationLog(
     id,
     accountId,
