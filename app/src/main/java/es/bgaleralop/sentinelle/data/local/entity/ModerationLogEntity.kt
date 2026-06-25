@@ -6,13 +6,13 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 /**
- * @author Bartolome Galera López (bgalera)
- * @date 23-06-2026
+ * @author Bartolomé Galera López (bgaleralop)
+ * @date 24-06-2026
  *
- * Entity for the blacklist table.
+ * Entity class that represents a moderation log in our database.
  */
 @Entity(
-    tableName = "blacklist_words",
+    tableName = "moderation_logs",
     foreignKeys = [
         ForeignKey(
             entity = AccountEntity::class,
@@ -22,11 +22,16 @@ import androidx.room.PrimaryKey
         )
     ],
     indices = [Index(value = ["accountId"])]
-    )
-data class BlacklistEntity(
+)
+data class ModerationLogEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val accountId: Long,
-    val word: String,
-    val action: String,
+    val commentId: String,
+    val authorUsername: String,
+    val commentText: String,
+    val timestamp: Long,
+    val isSpam: Boolean,
+    val matchedWord: String?,
+    val actionTaken: String
 )

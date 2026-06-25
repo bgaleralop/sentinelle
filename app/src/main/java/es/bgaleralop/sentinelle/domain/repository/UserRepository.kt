@@ -1,6 +1,6 @@
 package es.bgaleralop.sentinelle.domain.repository
 
-import es.bgaleralop.sentinelle.domain.model.UserTier
+import es.bgaleralop.sentinelle.domain.model.enums.UserTier
 import kotlinx.coroutines.flow.Flow
 
 /**

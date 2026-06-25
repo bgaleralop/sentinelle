@@ -8,11 +8,21 @@ import es.bgaleralop.sentinelle.domain.repository.WordRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+/**
+ * @author Bartolomé Galera López (bgaleralop)
+ * @date 23-06-2026
+ *
+ * Implementation of our WordRepository.
+ */
 class WordLocalImpl(
     private val repository: BlacklistDao
 ) : WordRepository {
     override fun getBlacklist(): Flow<List<Word>> {
         return repository.getAllWords().map { entity -> entity.map { it.toDomain() } }
+    }
+
+    override fun getBlacklistByAccount(accountId: Long): Flow<List<Word>> {
+        TODO("Not yet implemented")
     }
 
     override suspend fun addWord(word: Word) {

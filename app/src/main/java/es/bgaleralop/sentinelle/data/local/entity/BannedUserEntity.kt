@@ -3,16 +3,16 @@ package es.bgaleralop.sentinelle.data.local.entity
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import androidx.room.PrimaryKey
 
 /**
- * @author Bartolome Galera López (bgalera)
- * @date 23-06-2026
+ * @author Bartolomé Galera López (bgaleralop)
+ * @date 24-06-2026
  *
- * Entity for the blacklist table.
+ * Entity class that represents a banned user in our database.
  */
 @Entity(
-    tableName = "blacklist_words",
+    tableName = "banned_users",
+    primaryKeys = ["platformUserId", "accountId"],
     foreignKeys = [
         ForeignKey(
             entity = AccountEntity::class,
@@ -22,11 +22,11 @@ import androidx.room.PrimaryKey
         )
     ],
     indices = [Index(value = ["accountId"])]
-    )
-data class BlacklistEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+)
+data class BannedUserEntity(
+    val platformUserId: String,
     val accountId: Long,
-    val word: String,
-    val action: String,
+    val username: String,
+    val bannedAt: Long,
+    val reason: String
 )

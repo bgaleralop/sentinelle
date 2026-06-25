@@ -1,4 +1,4 @@
-package es.bgaleralop.sentinelle.domain.model
+package es.bgaleralop.sentinelle.domain.model.enums
 
 /**
  * @author Bartolomé Galera López (bgaleralop)

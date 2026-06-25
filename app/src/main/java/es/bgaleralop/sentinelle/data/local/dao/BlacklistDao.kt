@@ -20,6 +20,9 @@ interface BlacklistDao {
     @Query("SELECT * FROM blacklist_words ORDER BY word ASC")
     fun getAllWords(): Flow<List<BlacklistEntity>>
 
+    @Query("SELECT * FROM blacklist_words WHERE accountId = :accountId")
+    fun getBlacklistByAccount(accountId: Long): Flow<List<BlacklistEntity>>
+
     // Operación asíncrona (suspend) para no bloquear el hilo principal.
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWord(entity: BlacklistEntity)
