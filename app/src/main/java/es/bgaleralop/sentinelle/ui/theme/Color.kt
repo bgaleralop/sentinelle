@@ -22,3 +22,5 @@ val MidnightNavyVariant = Color(0xFF2D3446) // Para tarjetas y superficies
 val SlateGrey = Color(0xFF94A3B8)
 val OffWhite = Color(0xFFF9FAFB)
 val ErrorRed = Color(0xFFFF6B6B) // Un rojo suave para errores, no agresivo
+
+val SpamHighlightColor = Color(0xFFD1C4E9)
