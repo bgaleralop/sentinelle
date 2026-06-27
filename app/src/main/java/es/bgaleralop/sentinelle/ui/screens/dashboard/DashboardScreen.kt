@@ -40,7 +40,7 @@ import es.bgaleralop.sentinelle.domain.model.SentinelleAccount
 import es.bgaleralop.sentinelle.domain.model.SparklinePoint
 import es.bgaleralop.sentinelle.domain.model.enums.Platform
 import es.bgaleralop.sentinelle.domain.model.enums.UserTier
-import es.bgaleralop.sentinelle.ui.screens.accounts.SmallTopAppBar
+import es.bgaleralop.sentinelle.ui.screens.commons.SmallTopAppBar
 import es.bgaleralop.sentinelle.ui.screens.dashboard.components.CountsDashboardCard
 import es.bgaleralop.sentinelle.ui.screens.dashboard.components.ModeratedCommentCard
 import es.bgaleralop.sentinelle.ui.theme.SentinelleTheme
