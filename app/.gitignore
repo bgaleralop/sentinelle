@@ -1,6 +1,8 @@
 /build
 
-/.gradle
+.gradle/
 *.gradle
 *.bin
-/.idea
+.idea/
+*.idea
+*.xml
