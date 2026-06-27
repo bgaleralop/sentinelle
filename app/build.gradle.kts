@@ -56,6 +56,8 @@ dependencies {
     ksp(libs.hilt.compiler)
     // Androidx Security (Cifrado de datos locan en hardware)
     implementation(libs.androidx.security.crypto)
+    // Icons
+    implementation(libs.androidx.compose.material.icons.extended)
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
