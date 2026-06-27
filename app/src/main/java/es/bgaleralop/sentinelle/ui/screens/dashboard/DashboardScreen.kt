@@ -41,7 +41,7 @@ import es.bgaleralop.sentinelle.domain.model.SparklinePoint
 import es.bgaleralop.sentinelle.domain.model.enums.Platform
 import es.bgaleralop.sentinelle.domain.model.enums.UserTier
 import es.bgaleralop.sentinelle.ui.screens.commons.SmallTopAppBar
-import es.bgaleralop.sentinelle.ui.screens.dashboard.components.CountsDashboardCard
+import es.bgaleralop.sentinelle.ui.screens.dashboard.components.CommentsDashboardCard
 import es.bgaleralop.sentinelle.ui.screens.dashboard.components.ModeratedCommentCard
 import es.bgaleralop.sentinelle.ui.theme.SentinelleTheme
 
@@ -111,7 +111,7 @@ fun DashboardContent(state: DashboardUiState.Success) {
         .padding(16.dp)) {
 
         // 1. Tarjeta de Conteos y Sparkline.
-        CountsDashboardCard(state = state, sparks = state.sparklineData)
+        CommentsDashboardCard(state = state, sparks = state.sparklineData)
 
         Spacer(modifier = Modifier.height(16.dp))
 
