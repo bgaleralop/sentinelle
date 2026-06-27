@@ -27,7 +27,7 @@ import es.bgaleralop.sentinelle.ui.screens.dashboard.DashboardUiState
  * Composable que renderiza un Card de Conteos.
  */
 @Composable
-fun CountsDashboardCard(state: DashboardUiState.Success, sparks: List<SparklinePoint>) {
+fun CommentsDashboardCard(state: DashboardUiState.Success, sparks: List<SparklinePoint>) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
