@@ -150,8 +150,6 @@ fun BottomNavigationBar() {
     }
 }
 
-// MOCKS / HELPERS
-
 
 
 @Preview(showBackground = true, name = "Test A - Dark UI Mode", widthDp = 390, heightDp = 844)
@@ -226,7 +224,7 @@ private val fakeLogs = listOf(
             commentId = "msg_002",
             authorUsername = "hater_99",
             commentText = "Eres lo peor, ojalá te pase lo peor. Solo buscas atención.",
-            timestamp = System.currentTimeMillis(),
+            timestamp = System.currentTimeMillis() - 1000 * 60 * 27,
             isSpam = false,
             matchedWord = "peor",
             actionTaken = "BLOCKED"
