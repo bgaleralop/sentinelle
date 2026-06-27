@@ -20,6 +20,12 @@ import androidx.compose.ui.unit.dp
 import es.bgaleralop.sentinelle.domain.model.SparklinePoint
 import es.bgaleralop.sentinelle.ui.screens.dashboard.DashboardUiState
 
+/**
+ * @author Bartolomé Galera López (bgaleralop)
+ * @date 25-06-2026
+ *
+ * Composable que renderiza un Card de Conteos.
+ */
 @Composable
 fun CountsDashboardCard(state: DashboardUiState.Success, sparks: List<SparklinePoint>) {
     Card(

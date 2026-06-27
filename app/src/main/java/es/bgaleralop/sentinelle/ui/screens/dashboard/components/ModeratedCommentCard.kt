@@ -29,6 +29,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import es.bgaleralop.sentinelle.domain.model.DetailedCommentLog
@@ -38,6 +41,12 @@ import es.bgaleralop.sentinelle.domain.model.enums.Platform
 import es.bgaleralop.sentinelle.ui.theme.SentinelleTheme
 import es.bgaleralop.sentinelle.utils.selectCardBorderColor
 
+/**
+ * @author Bartolomé Galera López (bgaleralop)
+ * @date 25-06-2026
+ *
+ * Composable que renderiza un Card de Moderación.
+ */
 @Composable
 fun ModeratedCommentCard(detailedLog: DetailedCommentLog, modifier: Modifier = Modifier) {
     val borderColor = selectCardBorderColor(detailedLog.account.platform)
@@ -69,9 +78,9 @@ fun ModeratedCommentCard(detailedLog: DetailedCommentLog, modifier: Modifier = M
             Spacer(modifier = Modifier.height(8.dp))
             // Comentario original y detalles (resaltando palabras como seguidores y peor)
             Text(
-                text = detailedLog.log.commentText,
+                text = buildModeratedText(detailedLog.log.commentText, detailedLog.matchedWord ?: ""),
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
             )
         }
 
@@ -138,6 +147,27 @@ fun ModeratedCommentCard(detailedLog: DetailedCommentLog, modifier: Modifier = M
 
 }
 
+@Composable
+fun buildModeratedText(
+    fullText: String,
+    keyword: String
+): AnnotatedString {
+    return buildAnnotatedString {
+        append(fullText)
+
+        val regex = Regex(Regex.escape(keyword), RegexOption.IGNORE_CASE)
+
+        regex.findAll(fullText).forEach { matchResult ->
+            addStyle(
+                style = SpanStyle(
+                    background = MaterialTheme.colorScheme.tertiary.copy(0.4f),
+                ),
+                start = matchResult.range.first,
+                end = matchResult.range.last + 1
+            )
+        }
+    }
+}
 private fun calculatedTimeSince(timestamp: Long): String {
     val currentTime = System.currentTimeMillis()
     val timeDifference = currentTime - timestamp

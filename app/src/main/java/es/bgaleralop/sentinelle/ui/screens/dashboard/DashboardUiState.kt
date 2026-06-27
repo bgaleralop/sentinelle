@@ -7,6 +7,8 @@ import es.bgaleralop.sentinelle.domain.model.enums.UserTier
 /**
  * @author Bartolomé Galera López (bgaleralop)
  * @date 25-06-2026
+ *
+ * Estados de la pantalla Dashboard.
  */
 sealed interface DashboardUiState {
     object Loading: DashboardUiState

@@ -16,6 +16,12 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * @author Bartolomé Galera López (bgaleralop)
+ * @date 25-06-2026
+ *
+ * ViewModel del Dashboard.
+ */
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
     private val accountRepository: AccountRepository,

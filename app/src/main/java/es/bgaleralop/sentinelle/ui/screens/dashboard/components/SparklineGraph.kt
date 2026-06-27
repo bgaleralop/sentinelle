@@ -13,6 +13,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import es.bgaleralop.sentinelle.domain.model.SparklinePoint
 
+/**
+ * @author Bartolomé Galera López (bgaleralop)
+ * @date 25-06-2026
+ *
+ * Composable que renderiza un Sparkline.
+ */
 @Composable
 fun SparklineGraph(
     points: List<SparklinePoint>,

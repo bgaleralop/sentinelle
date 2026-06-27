@@ -21,7 +21,8 @@ private val LightColorScheme = lightColorScheme(
     background = LightBackground,
     surface = LightSurface,
     onSurface = LightOnSurface,
-    onBackground = LightOnSurface
+    onBackground = LightOnSurface,
+    tertiary = SpamHighlightColor
 )
 
 private val SentinelleColorScheme = darkColorScheme(
@@ -35,7 +36,8 @@ private val SentinelleColorScheme = darkColorScheme(
     onSurface = OffWhite,
     surfaceVariant = MidnightNavyVariant,
     onSurfaceVariant = SlateGrey,
-    error = ErrorRed
+    error = ErrorRed,
+    tertiary = SeafoamTeal.copy(alpha = 0.5f),
 )
 
 @Composable
