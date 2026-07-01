@@ -21,18 +21,20 @@ class AccountRepositoryImpl(
     private val accountDao: AccountDao
 ) : AccountRepository {
     override fun getActiveAccounts(): Flow<List<SentinelleAccount>> {
-        return accountDao.getActiveAccounts().map { list -> list.map { it.toDomain()} }
+        return accountDao.getActiveAccounts().map { list -> list.map { it.toDomain() } }
             .flowOn(Dispatchers.IO)
     }
 
-    override suspend fun getAccountById(id: Long): SentinelleAccount? = withContext(Dispatchers.IO) {
+    override suspend fun getAccountById(id: Long): SentinelleAccount? =
+        withContext(Dispatchers.IO) {
             return@withContext accountDao.getAccountById(id)?.toDomain()
         }
 
 
-    override suspend fun addAccount(account: SentinelleAccount): Result<Unit>  = withContext(Dispatchers.IO) {
-        runCatching { accountDao.insertAccount(account.toEntity()) }
-    }
+    override suspend fun addAccount(account: SentinelleAccount): Result<Unit> =
+        withContext(Dispatchers.IO) {
+            runCatching { accountDao.insertAccount(account.toEntity()) }
+        }
 
     override suspend fun deleteAccount(accountId: Long) = withContext(Dispatchers.IO) {
         accountDao.deleteAccount(accountId)

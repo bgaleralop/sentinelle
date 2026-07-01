@@ -70,8 +70,17 @@ fun ModerationLogEntity.toDomain() = ModerationLog(
     matchedWord,
     actionTaken
 )
+
 fun ModerationLog.toEntity() = ModerationLogEntity(
-    id, accountId, commentId, authorUsername, commentText, timestamp, isSpam, matchedWord, actionTaken
+    id,
+    accountId,
+    commentId,
+    authorUsername,
+    commentText,
+    timestamp,
+    isSpam,
+    matchedWord,
+    actionTaken
 )
 
 fun BannedUserEntity.toDomain() = BannedUser(platformUserId, accountId, username, bannedAt, reason)

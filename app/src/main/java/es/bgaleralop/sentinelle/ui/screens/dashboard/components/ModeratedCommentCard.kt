@@ -78,7 +78,10 @@ fun ModeratedCommentCard(detailedLog: DetailedCommentLog, modifier: Modifier = M
             Spacer(modifier = Modifier.height(8.dp))
             // Comentario original y detalles (resaltando palabras como seguidores y peor)
             Text(
-                text = buildModeratedText(detailedLog.log.commentText, detailedLog.matchedWord ?: ""),
+                text = buildModeratedText(
+                    detailedLog.log.commentText,
+                    detailedLog.matchedWord ?: ""
+                ),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface,
             )
@@ -92,7 +95,7 @@ fun ModeratedCommentCard(detailedLog: DetailedCommentLog, modifier: Modifier = M
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Box(modifier = Modifier.weight(0.6f)) {
-                Row(){
+                Row {
                     Icon(
                         imageVector = Icons.Default.AccessTime,
                         contentDescription = null,
@@ -108,7 +111,7 @@ fun ModeratedCommentCard(detailedLog: DetailedCommentLog, modifier: Modifier = M
                     )
                 }
             }
-            Row(){
+            Row {
                 // Botón Bloquear.
                 Button(
                     onClick = {/* Acción para bloquear */ },
@@ -168,6 +171,7 @@ fun buildModeratedText(
         }
     }
 }
+
 private fun calculatedTimeSince(timestamp: Long): String {
     val currentTime = System.currentTimeMillis()
     val timeDifference = currentTime - timestamp
@@ -183,9 +187,9 @@ private fun calculatedTimeSince(timestamp: Long): String {
 
 @Preview(showBackground = true, name = "Test A - Dark UI Mode", widthDp = 390, heightDp = 844)
 @Composable
-fun ModeratedCommentCardDarkModePreview(){
+fun ModeratedCommentCardDarkModePreview() {
     SentinelleTheme(darkTheme = true) {
-        Surface(color = MaterialTheme.colorScheme.background){
+        Surface(color = MaterialTheme.colorScheme.background) {
             ModeratedCommentCard(detailedLog = mockData)
         }
     }
@@ -193,9 +197,9 @@ fun ModeratedCommentCardDarkModePreview(){
 
 @Preview(showBackground = true, name = "Test A - Light UI Mode", widthDp = 390, heightDp = 844)
 @Composable
-fun ModeratedCommentCardLightModePreview(){
+fun ModeratedCommentCardLightModePreview() {
     SentinelleTheme(darkTheme = false) {
-        Surface(color = MaterialTheme.colorScheme.background){
+        Surface(color = MaterialTheme.colorScheme.background) {
             ModeratedCommentCard(detailedLog = mockData)
         }
     }

@@ -12,18 +12,21 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class BannedUserRepositoryImpl(private val bannedUserDao: BannedUserDao) : BannedUserRepository {
-    override fun getBannedUsersByAccount(accountId: Long): Flow<List<BannedUser>> = bannedUserDao.getBannedUsersByAccount(accountId)
-        .map { list -> list.map { it.toDomain() } }.flowOn(Dispatchers.IO)
+    override fun getBannedUsersByAccount(accountId: Long): Flow<List<BannedUser>> =
+        bannedUserDao.getBannedUsersByAccount(accountId)
+            .map { list -> list.map { it.toDomain() } }.flowOn(Dispatchers.IO)
 
     override suspend fun banUser(user: BannedUser) = withContext(Dispatchers.IO) {
         bannedUserDao.insertBannedUser(user.toEntity())
     }
 
-    override suspend fun unbanUser(platformUserId: String, accountId: Long) = withContext(Dispatchers.IO) {
-        bannedUserDao.deleteBannedUser(platformUserId, accountId)
-    }
+    override suspend fun unbanUser(platformUserId: String, accountId: Long) =
+        withContext(Dispatchers.IO) {
+            bannedUserDao.deleteBannedUser(platformUserId, accountId)
+        }
 
-    override suspend fun isUserBanned(platformUserId: String, accountId: Long): Boolean = withContext(Dispatchers.IO) {
-        bannedUserDao.isUserBanned(platformUserId, accountId) > 0
-    }
+    override suspend fun isUserBanned(platformUserId: String, accountId: Long): Boolean =
+        withContext(Dispatchers.IO) {
+            bannedUserDao.isUserBanned(platformUserId, accountId) > 0
+        }
 }

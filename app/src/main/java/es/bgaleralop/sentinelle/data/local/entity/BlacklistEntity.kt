@@ -22,7 +22,7 @@ import androidx.room.PrimaryKey
         )
     ],
     indices = [Index(value = ["accountId"])]
-    )
+)
 data class BlacklistEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,

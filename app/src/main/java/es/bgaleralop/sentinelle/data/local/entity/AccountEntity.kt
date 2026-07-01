@@ -20,5 +20,4 @@ data class AccountEntity(
     val accessTokenExpiration: Long,
     val refreshTokenExpiration: Long,
     val isActive: Boolean
-) {
-}
+)

@@ -32,9 +32,11 @@ import es.bgaleralop.sentinelle.ui.theme.SentinelleTheme
  */
 
 @Composable
-fun PlansScreen(currentTier: UserTier, onSubscribe: () -> Unit, modifier: Modifier = Modifier){
+fun PlansScreen(currentTier: UserTier, onSubscribe: () -> Unit, modifier: Modifier = Modifier) {
     Scaffold(modifier = modifier) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues).fillMaxSize()){
+        Box(modifier = Modifier
+            .padding(paddingValues)
+            .fillMaxSize()) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
@@ -45,7 +47,9 @@ fun PlansScreen(currentTier: UserTier, onSubscribe: () -> Unit, modifier: Modifi
 
                 Button(
                     onClick = { onSubscribe() },
-                    modifier = Modifier.fillMaxWidth().padding(16.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
                 ) {
                     Text(
                         text = "Suscribirse con Google Play",
@@ -55,7 +59,7 @@ fun PlansScreen(currentTier: UserTier, onSubscribe: () -> Unit, modifier: Modifi
                         fontFamily = FontFamily.SansSerif
                     )
                 }
-                Box(){
+                Box {
                     Column(
                         modifier = Modifier.padding(horizontal = 16.dp)
                     ) {
@@ -81,7 +85,7 @@ fun PlansScreen(currentTier: UserTier, onSubscribe: () -> Unit, modifier: Modifi
 
 @Preview(showBackground = true, name = "Test A - Dark UI Mode", widthDp = 390, heightDp = 844)
 @Composable
-fun PlanScreenDarkModePreview(){
+fun PlanScreenDarkModePreview() {
     SentinelleTheme(darkTheme = true) {
         PlansScreen(currentTier = UserTier.FREE, onSubscribe = {})
     }
@@ -89,7 +93,7 @@ fun PlanScreenDarkModePreview(){
 
 @Preview(showBackground = true, name = "Test B - Light UI Mode", widthDp = 390, heightDp = 844)
 @Composable
-fun PlanScreenLightModePreview(){
+fun PlanScreenLightModePreview() {
     SentinelleTheme(darkTheme = false) {
         PlansScreen(currentTier = UserTier.PRO, onSubscribe = {})
     }

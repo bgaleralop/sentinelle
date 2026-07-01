@@ -3,7 +3,7 @@ package es.bgaleralop.sentinelle.ui.screens.accounts
 import es.bgaleralop.sentinelle.domain.model.SentinelleAccount
 
 sealed interface AccountUiState {
-    object Loading: AccountUiState
+    object Loading : AccountUiState
 
     data class Success(
         val accounts: List<SentinelleAccount>,

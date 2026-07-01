@@ -67,9 +67,11 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.ExtraBold
                         )
-                        Spacer(modifier = Modifier
-                            .width(16.dp)
-                            .weight(0.5f))
+                        Spacer(
+                            modifier = Modifier
+                                .width(16.dp)
+                                .weight(0.5f)
+                        )
                         Surface(
                             modifier = Modifier.padding(bottom = 4.dp, end = 16.dp),
                             color = Color(0xFF00C9A7).copy(alpha = 0.15f),
@@ -92,12 +94,24 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
         },
         bottomBar = { BottomNavigationBar() },
     ) { paddingValues ->
-        Box(modifier = Modifier
-            .padding(paddingValues)
-            .fillMaxSize()){
+        Box(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+        ) {
             when (val state = uiState) {
-                is DashboardUiState.Loading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                is DashboardUiState.Error -> Text(text = state.message, color = Color.Red, modifier = Modifier.align(Alignment.Center))
+                is DashboardUiState.Loading -> CircularProgressIndicator(
+                    modifier = Modifier.align(
+                        Alignment.Center
+                    )
+                )
+
+                is DashboardUiState.Error -> Text(
+                    text = state.message,
+                    color = Color.Red,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+
                 is DashboardUiState.Success -> DashboardContent(state = state)
             }
         }
@@ -106,9 +120,11 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
 
 @Composable
 fun DashboardContent(state: DashboardUiState.Success) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
 
         // 1. Tarjeta de Conteos y Sparkline.
         CommentsDashboardCard(state = state, sparks = state.sparklineData)
@@ -149,7 +165,6 @@ fun BottomNavigationBar() {
             onClick = {})
     }
 }
-
 
 
 @Preview(showBackground = true, name = "Test A - Dark UI Mode", widthDp = 390, heightDp = 844)

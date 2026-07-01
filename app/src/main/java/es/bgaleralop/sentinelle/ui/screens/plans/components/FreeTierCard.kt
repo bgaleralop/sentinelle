@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
  * Composable que renderiza la tarjeta de plan gratuito.
  */
 @Composable
-fun FreeTierCard(selected: Boolean, onSelected: () -> Unit, modifier: Modifier = Modifier){
+fun FreeTierCard(selected: Boolean, onSelected: () -> Unit, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.large,
@@ -36,7 +36,7 @@ fun FreeTierCard(selected: Boolean, onSelected: () -> Unit, modifier: Modifier =
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(16.dp)
         ) {
-            Column() {
+            Column {
                 Text(
                     text = "Plan Básico",
                     style = MaterialTheme.typography.titleLarge,

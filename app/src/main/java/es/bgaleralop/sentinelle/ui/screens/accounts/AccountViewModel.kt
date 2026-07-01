@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @HiltViewModel
 class AccountViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
@@ -34,8 +35,7 @@ class AccountViewModel @Inject constructor(
             combine(
                 accountRepository.getActiveAccounts(),
                 userRepository.getUserTier()
-            ) {
-                accounts, tier ->
+            ) { accounts, tier ->
                 val maxAllowed = when (tier) {
                     UserTier.FREE -> 1
                     UserTier.PRO -> 5
@@ -61,9 +61,13 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    fun addAccount(account: SentinelleAccount){
+    fun addAccount(account: SentinelleAccount) {
         viewModelScope.launch {
             accountRepository.addAccount(account)
         }
+    }
+
+    fun onNewCountButtonSubmitted() {
+
     }
 }

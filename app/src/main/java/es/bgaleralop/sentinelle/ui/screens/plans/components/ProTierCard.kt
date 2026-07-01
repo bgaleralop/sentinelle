@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ProTierCard(selected: Boolean, onSelected: () -> Unit, modifier: Modifier = Modifier){
+fun ProTierCard(selected: Boolean, onSelected: () -> Unit, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.large,
@@ -35,7 +35,7 @@ fun ProTierCard(selected: Boolean, onSelected: () -> Unit, modifier: Modifier = 
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Column() {
+                Column {
                     Text(
                         text = "Plan Creador Pro",
                         style = MaterialTheme.typography.titleLarge,

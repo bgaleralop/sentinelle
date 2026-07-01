@@ -22,7 +22,7 @@ private val LightColorScheme = lightColorScheme(
     surface = LightSurface,
     onSurface = LightOnSurface,
     onBackground = LightOnSurface,
-    tertiary = SpamHighlightColor
+    tertiary = SeafoamTeal.copy(alpha = 0.5f)
 )
 
 private val SentinelleColorScheme = darkColorScheme(

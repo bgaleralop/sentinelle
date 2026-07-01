@@ -22,7 +22,7 @@ import es.bgaleralop.sentinelle.domain.model.enums.UserTier
  * Composable que renderiza el encabezado de la pantalla de cuentas.
  */
 @Composable
-fun AccountsHeader(title: String, tier: UserTier, modifier: Modifier = Modifier){
+fun AccountsHeader(title: String, tier: UserTier, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
     ) {

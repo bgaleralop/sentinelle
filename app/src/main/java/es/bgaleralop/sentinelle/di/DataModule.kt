@@ -29,10 +29,10 @@ object DataModule {
     @Singleton
     fun provideDataBase(@ApplicationContext context: Context): SentinelleDatabase {
         return Room.databaseBuilder(
-                context,
-                SentinelleDatabase::class.java,
-                "sentinelle_database"
-            ).fallbackToDestructiveMigration(true).build() // Destructiva para agilizar el MVP
+            context,
+            SentinelleDatabase::class.java,
+            "sentinelle_database"
+        ).fallbackToDestructiveMigration(true).build() // Destructiva para agilizar el MVP
     }
 
     @Provides

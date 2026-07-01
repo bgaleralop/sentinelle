@@ -11,7 +11,7 @@ import es.bgaleralop.sentinelle.domain.model.enums.UserTier
  * Estados de la pantalla Dashboard.
  */
 sealed interface DashboardUiState {
-    object Loading: DashboardUiState
+    object Loading : DashboardUiState
 
     data class Success(
         val userTier: UserTier,

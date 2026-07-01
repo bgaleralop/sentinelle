@@ -36,7 +36,7 @@ fun AccountCard(
     onDeleteClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     numComments: Int = 0
-){
+) {
     val borderColor = selectCardBorderColor(account.platform)
 
     Card(
@@ -57,7 +57,7 @@ fun AccountCard(
                     tint = borderColor.copy(alpha = 1f)
                 )
                 Spacer(modifier = Modifier.padding(4.dp))
-                Column() {
+                Column {
                     Text(
                         text = account.accountHandle,
                         style = MaterialTheme.typography.labelLarge

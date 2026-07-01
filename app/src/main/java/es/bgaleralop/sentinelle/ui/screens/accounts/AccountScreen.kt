@@ -39,19 +39,31 @@ import es.bgaleralop.sentinelle.ui.theme.SentinelleTheme
  * Composable that render AccountScreen.
  */
 @Composable
-fun AccountScreen(viewModel: AccountViewModel, modifier: Modifier = Modifier){
+fun AccountScreen(viewModel: AccountViewModel, modifier: Modifier = Modifier) {
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold { paddingValues ->
-        Box(modifier = modifier.padding(paddingValues).fillMaxSize()) {
-            when(val state = uiState) {
-                is AccountUiState.Loading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                is AccountUiState.Error -> Text(text = state.message, color = Color.Red, modifier = Modifier.align(Alignment.Center))
+        Box(modifier = modifier
+            .padding(paddingValues)
+            .fillMaxSize()) {
+            when (val state = uiState) {
+                is AccountUiState.Loading -> CircularProgressIndicator(
+                    modifier = Modifier.align(
+                        Alignment.Center
+                    )
+                )
+
+                is AccountUiState.Error -> Text(
+                    text = state.message,
+                    color = Color.Red,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+
                 is AccountUiState.Success -> AccountContent(
                     state = state,
                     tier = UserTier.PRO,
                     onAddAccount = {},
-                    onDeleteClick = {id -> viewModel.removeAccount(id)}
+                    onDeleteClick = { id -> viewModel.removeAccount(id) }
                 )
             }
         }
@@ -65,9 +77,10 @@ fun AccountContent(
     onAddAccount: () -> Unit,
     onDeleteClick: (Long) -> Unit,
     modifier: Modifier = Modifier
-){
+) {
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
             .padding(16.dp),
     ) {
         AccountsHeader(title = "Sentinelle", tier = tier)
@@ -122,32 +135,43 @@ private fun getTierText(tier: UserTier): String {
             Acceso a 1 cuenta por plataforma.
             Filtrado de 200 comentarios por día.
         """.trimIndent()
+
         UserTier.PRO -> """
             Acceso a 5 cuentas.
             Filtrado de comentarios sin límite.
         """.trimIndent()
+
         UserTier.ENTERPRISE -> """
             Acceso a 50 cuentas.
             Filtrado de comentarios sin límite.
         """.trimIndent()
     }
 }
+
 @Preview(showBackground = true, name = "Test A - Dark UI Mode", widthDp = 390, heightDp = 844)
 @Composable
-fun AccountScreenDarkModePreview(){
+fun AccountScreenDarkModePreview() {
     SentinelleTheme(darkTheme = true) {
         Surface(color = MaterialTheme.colorScheme.background) {
-            AccountContent(state = fakeSuccessState, tier = UserTier.PRO, onAddAccount = {}, onDeleteClick = {})
+            AccountContent(
+                state = fakeSuccessState,
+                tier = UserTier.PRO,
+                onAddAccount = {},
+                onDeleteClick = {})
         }
     }
 }
 
 @Preview(showBackground = true, name = "Test B - Light UI Mode", widthDp = 390, heightDp = 844)
 @Composable
-fun AccountScreenLightModePreview(){
+fun AccountScreenLightModePreview() {
     SentinelleTheme(darkTheme = false) {
         Surface(color = MaterialTheme.colorScheme.background) {
-            AccountContent(state = fakeSuccessState, tier = UserTier.FREE, onAddAccount = {},onDeleteClick = {})
+            AccountContent(
+                state = fakeSuccessState,
+                tier = UserTier.FREE,
+                onAddAccount = {},
+                onDeleteClick = {})
         }
     }
 }
