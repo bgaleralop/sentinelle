@@ -1,4 +1,17 @@
-package es.bgaleralop.sentinelle.presentation.screens.accounts.components
+/*
+ *
+ *  Copyright (C) 2026 Sentinelle Team <bgaleralop@gmail.com>
+ *
+ *  This source code is property of Sentinelle Team.
+ *  It is made available publicly for portfolio evaluation and educational purposes only.
+ *  Commercial use, reproduction, or distribution in any digital storefront is
+ *  strictly prohibited under the PolyForm Noncommercial License 1.0.0.
+ *
+ *  For full license details, see the LICENSE.md file in the root directory.
+ *
+ */
+
+package es.bgaleralop.sentinelle.ui.screens.accounts.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,7 +35,7 @@ import es.bgaleralop.sentinelle.domain.model.enums.UserTier
  * Composable que renderiza el encabezado de la pantalla de cuentas.
  */
 @Composable
-fun AccountsHeader(title: String, tier: UserTier, modifier: Modifier = Modifier) {
+fun AccountsHeader(title: String, tier: UserTier, modifier: Modifier = Modifier){
     Row(
         modifier = modifier
     ) {

@@ -1,4 +1,17 @@
-package es.bgaleralop.sentinelle.presentation.screens.dashboard.components
+/*
+ *
+ *  Copyright (C) 2026 Sentinelle Team <bgaleralop@gmail.com>
+ *
+ *  This source code is property of Sentinelle Team.
+ *  It is made available publicly for portfolio evaluation and educational purposes only.
+ *  Commercial use, reproduction, or distribution in any digital storefront is
+ *  strictly prohibited under the PolyForm Noncommercial License 1.0.0.
+ *
+ *  For full license details, see the LICENSE.md file in the root directory.
+ *
+ */
+
+package es.bgaleralop.sentinelle.ui.screens.dashboard.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -38,8 +51,8 @@ import es.bgaleralop.sentinelle.domain.model.DetailedCommentLog
 import es.bgaleralop.sentinelle.domain.model.ModerationLog
 import es.bgaleralop.sentinelle.domain.model.SentinelleAccount
 import es.bgaleralop.sentinelle.domain.model.enums.Platform
-import es.bgaleralop.sentinelle.presentation.theme.SentinelleTheme
-import es.bgaleralop.sentinelle.core.utils.selectCardBorderColor
+import es.bgaleralop.sentinelle.ui.theme.SentinelleTheme
+import es.bgaleralop.sentinelle.utils.selectCardBorderColor
 
 /**
  * @author Bartolomé Galera López (bgaleralop)
@@ -78,10 +91,7 @@ fun ModeratedCommentCard(detailedLog: DetailedCommentLog, modifier: Modifier = M
             Spacer(modifier = Modifier.height(8.dp))
             // Comentario original y detalles (resaltando palabras como seguidores y peor)
             Text(
-                text = buildModeratedText(
-                    detailedLog.log.commentText,
-                    detailedLog.matchedWord ?: ""
-                ),
+                text = buildModeratedText(detailedLog.log.commentText, detailedLog.matchedWord ?: ""),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface,
             )
@@ -95,7 +105,7 @@ fun ModeratedCommentCard(detailedLog: DetailedCommentLog, modifier: Modifier = M
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Box(modifier = Modifier.weight(0.6f)) {
-                Row {
+                Row(){
                     Icon(
                         imageVector = Icons.Default.AccessTime,
                         contentDescription = null,
@@ -111,7 +121,7 @@ fun ModeratedCommentCard(detailedLog: DetailedCommentLog, modifier: Modifier = M
                     )
                 }
             }
-            Row {
+            Row(){
                 // Botón Bloquear.
                 Button(
                     onClick = {/* Acción para bloquear */ },
@@ -171,7 +181,6 @@ fun buildModeratedText(
         }
     }
 }
-
 private fun calculatedTimeSince(timestamp: Long): String {
     val currentTime = System.currentTimeMillis()
     val timeDifference = currentTime - timestamp
@@ -187,9 +196,9 @@ private fun calculatedTimeSince(timestamp: Long): String {
 
 @Preview(showBackground = true, name = "Test A - Dark UI Mode", widthDp = 390, heightDp = 844)
 @Composable
-fun ModeratedCommentCardDarkModePreview() {
+fun ModeratedCommentCardDarkModePreview(){
     SentinelleTheme(darkTheme = true) {
-        Surface(color = MaterialTheme.colorScheme.background) {
+        Surface(color = MaterialTheme.colorScheme.background){
             ModeratedCommentCard(detailedLog = mockData)
         }
     }
@@ -197,9 +206,9 @@ fun ModeratedCommentCardDarkModePreview() {
 
 @Preview(showBackground = true, name = "Test A - Light UI Mode", widthDp = 390, heightDp = 844)
 @Composable
-fun ModeratedCommentCardLightModePreview() {
+fun ModeratedCommentCardLightModePreview(){
     SentinelleTheme(darkTheme = false) {
-        Surface(color = MaterialTheme.colorScheme.background) {
+        Surface(color = MaterialTheme.colorScheme.background){
             ModeratedCommentCard(detailedLog = mockData)
         }
     }

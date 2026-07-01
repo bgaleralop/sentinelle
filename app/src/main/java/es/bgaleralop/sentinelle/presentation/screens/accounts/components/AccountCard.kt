@@ -1,4 +1,17 @@
-package es.bgaleralop.sentinelle.presentation.screens.accounts.components
+/*
+ *
+ *  Copyright (C) 2026 Sentinelle Team <bgaleralop@gmail.com>
+ *
+ *  This source code is property of Sentinelle Team.
+ *  It is made available publicly for portfolio evaluation and educational purposes only.
+ *  Commercial use, reproduction, or distribution in any digital storefront is
+ *  strictly prohibited under the PolyForm Noncommercial License 1.0.0.
+ *
+ *  For full license details, see the LICENSE.md file in the root directory.
+ *
+ */
+
+package es.bgaleralop.sentinelle.ui.screens.accounts.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
@@ -22,7 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import es.bgaleralop.sentinelle.domain.model.SentinelleAccount
-import es.bgaleralop.sentinelle.core.utils.selectCardBorderColor
+import es.bgaleralop.sentinelle.utils.selectCardBorderColor
 
 /**
  * @author Bartolomé Galera López (bgaleralop)
@@ -36,7 +49,7 @@ fun AccountCard(
     onDeleteClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     numComments: Int = 0
-) {
+){
     val borderColor = selectCardBorderColor(account.platform)
 
     Card(
@@ -57,7 +70,7 @@ fun AccountCard(
                     tint = borderColor.copy(alpha = 1f)
                 )
                 Spacer(modifier = Modifier.padding(4.dp))
-                Column {
+                Column() {
                     Text(
                         text = account.accountHandle,
                         style = MaterialTheme.typography.labelLarge

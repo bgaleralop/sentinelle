@@ -1,4 +1,17 @@
-package es.bgaleralop.sentinelle.presentation.screens.accounts
+/*
+ *
+ *  Copyright (C) 2026 Sentinelle Team <bgaleralop@gmail.com>
+ *
+ *  This source code is property of Sentinelle Team.
+ *  It is made available publicly for portfolio evaluation and educational purposes only.
+ *  Commercial use, reproduction, or distribution in any digital storefront is
+ *  strictly prohibited under the PolyForm Noncommercial License 1.0.0.
+ *
+ *  For full license details, see the LICENSE.md file in the root directory.
+ *
+ */
+
+package es.bgaleralop.sentinelle.ui.screens.accounts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +27,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 @HiltViewModel
 class AccountViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
@@ -35,7 +47,8 @@ class AccountViewModel @Inject constructor(
             combine(
                 accountRepository.getActiveAccounts(),
                 userRepository.getUserTier()
-            ) { accounts, tier ->
+            ) {
+                accounts, tier ->
                 val maxAllowed = when (tier) {
                     UserTier.FREE -> 1
                     UserTier.PRO -> 5
@@ -61,13 +74,9 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    fun addAccount(account: SentinelleAccount) {
+    fun addAccount(account: SentinelleAccount){
         viewModelScope.launch {
             accountRepository.addAccount(account)
         }
-    }
-
-    fun onNewCountButtonSubmitted() {
-
     }
 }

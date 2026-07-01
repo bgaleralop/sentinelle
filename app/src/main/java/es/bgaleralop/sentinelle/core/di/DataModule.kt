@@ -1,4 +1,17 @@
-package es.bgaleralop.sentinelle.core.di
+/*
+ *
+ *  Copyright (C) 2026 Sentinelle Team <bgaleralop@gmail.com>
+ *
+ *  This source code is property of Sentinelle Team.
+ *  It is made available publicly for portfolio evaluation and educational purposes only.
+ *  Commercial use, reproduction, or distribution in any digital storefront is
+ *  strictly prohibited under the PolyForm Noncommercial License 1.0.0.
+ *
+ *  For full license details, see the LICENSE.md file in the root directory.
+ *
+ */
+
+package es.bgaleralop.sentinelle.di
 
 import android.content.Context
 import androidx.room.Room
@@ -29,10 +42,10 @@ object DataModule {
     @Singleton
     fun provideDataBase(@ApplicationContext context: Context): SentinelleDatabase {
         return Room.databaseBuilder(
-            context,
-            SentinelleDatabase::class.java,
-            "sentinelle_database"
-        ).fallbackToDestructiveMigration(true).build() // Destructiva para agilizar el MVP
+                context,
+                SentinelleDatabase::class.java,
+                "sentinelle_database"
+            ).fallbackToDestructiveMigration(true).build() // Destructiva para agilizar el MVP
     }
 
     @Provides
