@@ -11,7 +11,7 @@
  *
  */
 
-package es.bgaleralop.sentinelle.di
+package es.bgaleralop.sentinelle.core.di
 
 import android.content.Context
 import androidx.room.Room
@@ -42,10 +42,10 @@ object DataModule {
     @Singleton
     fun provideDataBase(@ApplicationContext context: Context): SentinelleDatabase {
         return Room.databaseBuilder(
-                context,
-                SentinelleDatabase::class.java,
-                "sentinelle_database"
-            ).fallbackToDestructiveMigration(true).build() // Destructiva para agilizar el MVP
+            context,
+            SentinelleDatabase::class.java,
+            "sentinelle_database"
+        ).fallbackToDestructiveMigration(true).build() // Destructiva para agilizar el MVP
     }
 
     @Provides

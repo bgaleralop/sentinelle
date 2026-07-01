@@ -11,7 +11,7 @@
  *
  */
 
-package es.bgaleralop.sentinelle.ui.screens.accounts.components
+package es.bgaleralop.sentinelle.presentation.screens.accounts.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -35,7 +35,7 @@ import es.bgaleralop.sentinelle.domain.model.enums.UserTier
  * Composable que renderiza el encabezado de la pantalla de cuentas.
  */
 @Composable
-fun AccountsHeader(title: String, tier: UserTier, modifier: Modifier = Modifier){
+fun AccountsHeader(title: String, tier: UserTier, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
     ) {

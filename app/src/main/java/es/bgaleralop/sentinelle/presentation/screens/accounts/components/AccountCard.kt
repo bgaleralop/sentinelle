@@ -11,7 +11,7 @@
  *
  */
 
-package es.bgaleralop.sentinelle.ui.screens.accounts.components
+package es.bgaleralop.sentinelle.presentation.screens.accounts.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
@@ -34,8 +34,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import es.bgaleralop.sentinelle.core.utils.selectCardBorderColor
 import es.bgaleralop.sentinelle.domain.model.SentinelleAccount
-import es.bgaleralop.sentinelle.utils.selectCardBorderColor
 
 /**
  * @author Bartolomé Galera López (bgaleralop)
@@ -49,7 +49,7 @@ fun AccountCard(
     onDeleteClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     numComments: Int = 0
-){
+) {
     val borderColor = selectCardBorderColor(account.platform)
 
     Card(
@@ -70,7 +70,7 @@ fun AccountCard(
                     tint = borderColor.copy(alpha = 1f)
                 )
                 Spacer(modifier = Modifier.padding(4.dp))
-                Column() {
+                Column {
                     Text(
                         text = account.accountHandle,
                         style = MaterialTheme.typography.labelLarge

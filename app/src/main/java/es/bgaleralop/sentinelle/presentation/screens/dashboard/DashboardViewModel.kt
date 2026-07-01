@@ -11,7 +11,7 @@
  *
  */
 
-package es.bgaleralop.sentinelle.ui.screens.dashboard
+package es.bgaleralop.sentinelle.presentation.screens.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

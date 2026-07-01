@@ -11,7 +11,7 @@
  *
  */
 
-package es.bgaleralop.sentinelle.ui.screens.dashboard.components
+package es.bgaleralop.sentinelle.presentation.screens.dashboard.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,7 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import es.bgaleralop.sentinelle.domain.model.SparklinePoint
-import es.bgaleralop.sentinelle.ui.screens.dashboard.DashboardUiState
+import es.bgaleralop.sentinelle.presentation.screens.dashboard.DashboardUiState
 
 /**
  * @author Bartolomé Galera López (bgaleralop)

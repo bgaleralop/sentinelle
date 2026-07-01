@@ -11,7 +11,7 @@
  *
  */
 
-package es.bgaleralop.sentinelle.ui.screens.commons
+package es.bgaleralop.sentinelle.presentation.screens.commons
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ExperimentalMaterial3Api
