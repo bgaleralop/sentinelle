@@ -76,10 +76,30 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     // Testing
     testImplementation(libs.junit)
+    // Soporte para testear funciones suspendidas y cambiar el Main Dispatcher en tests
+    testImplementation(libs.kotlinx.coroutines.test)
+    // MockK: La librería estándar de facto para hacer Mocks en Kotlin puro (ViewModels/UseCases)
+    testImplementation(libs.mockk)
+    // Turbine: Imprescindible para testear StateFlow y Flows de forma síncrona sin bloquear hilos
+    testImplementation(libs.turbine)
+    // Google Truth: Para escribir aserciones mucho más legibles que el assertEquals clásico
+    testImplementation(libs.truth)
+    // Si necesitas testear migraciones o DAOs de Room en la JVM (con arquitectura local-first)
+    testImplementation(libs.androidx.room.testing)
+
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.junit.v115)
+    androidTestImplementation(libs.androidx.espresso.core.v351)
+    // Soporte de JUnit 4 para testing de interfaces con Jetpack Compose
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.androidx.navigation.testing)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    // Tooling de Compose obligatorio para poder inflar y testear el árbol semántico de la UI
+    debugImplementation(libs.androidx.ui.test.manifest)
+
+
 }
