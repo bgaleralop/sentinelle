@@ -1,7 +1,6 @@
 # Sentinelle 🛡️
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.9.x-purple.svg)](https://kotlinlang.org/)
+[![License: PolyForm Noncommercial](https://img.shields.io/badge/License-PolyForm_Noncommercial-orange.svg)](https://polyformproject.org)[![Kotlin](https://img.shields.io/badge/Kotlin-1.9.x-purple.svg)](https://kotlinlang.org/)
 [![Jetpack Compose](https://img.shields.io/badge/Compose-2024.x-green.svg)](https://developer.android.com/jetpack/compose)
 [![Platform](https://img.shields.io/badge/Platform-Android-brightgreen.svg)](https://developer.android.com)
 
@@ -38,3 +37,30 @@ La aplicación ha sido desarrollada siguiendo los estándares más rigurosos del
             ├── data/          # Implementación de Repositorios, Room DAO, APIs de Redes
             ├── domain/        # Modelos de Negocio, Casos de Uso (Use Cases) e Interfaces
             └── presentation/  # UI Components, ViewModels y State de Jetpack Compose
+
+```
+
+---
+
+## 💼 Nota para Reclutadores y Tech Leads
+
+Este repositorio es **público con fines de porfolio técnico e ingeniería**. Se ha diseñado siguiendo los estándares más rigurosos de la industria móvil para demostrar competencias reales en el desarrollo de software a nivel Senior. 
+
+### ¿Qué se evalúa en este proyecto?
+- **Clean Architecture & MVVM:** Separación estricta de responsabilidades en módulos independientes (`domain`, `data`, `presentation`).
+- **Concurrencia Avanzada:** Uso intensivo de *Kotlin Coroutines* y *Flows* (StateFlow/SharedFlow) para procesar cadenas de texto en hilos de fondo (`Dispatchers.Default`), manteniendo el hilo de UI libre de bloqueos.
+- **Persistencia Local Segura:** Implementación optimizada de *Room Database* con abstracción de repositorios y reactividad nativa.
+- **UI Declarativa:** Vistas dinámicas, escalables y eficientes desarrolladas íntegramente con *Jetpack Compose*.
+
+---
+
+## ⚖️ Licencia y Propiedad Intelectual
+
+Este proyecto está protegido bajo la licencia **PolyForm Noncommercial License 1.0.0**. 
+
+* **Permitido:** La inspección del código, compilación local, clonación para pruebas personales y evaluación de talento en procesos de selección de personal.
+* **Estrictamente Prohibido:** La explotación comercial, distribución en tiendas de aplicaciones bajo modelos de monetización (compras integradas, publicidad o suscripciones), o el uso del motor de análisis para lucrarse económicamente.
+
+El modelo comercial legítimo (Freemium vía Google Play Billing) está operado y reservado exclusivamente por el equipo original de Sentinelle.
+
+Contacto y consultas sobre licencias comerciales: [bgaleralop@gmail.com](mailto:bgaleralop@gmail.com)

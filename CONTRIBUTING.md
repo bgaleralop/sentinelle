@@ -38,3 +38,15 @@ Los mensajes de commit deben seguir la especificación de **Conventional Commits
 [Cuerpo opcional detallando el motivo técnico del cambio]
 
 [Pie de página opcional para referenciar Issues, ej: Closes #42]
+```
+
+## ⚖️ Acuerdo de Cesión de Contribuciones (CLA)
+
+Al enviar un Pull Request (PR) a este repositorio, aceptas que:
+1. Tus aportaciones se integrarán bajo la licencia **PolyForm Noncommercial License 1.0.0** del proyecto.
+2. Otorgas al autor original del proyecto los derechos ilimitados para incluir tu código en las versiones comerciales distribuidas en las tiendas oficiales (Google Play Store), manteniendo el núcleo del porfolio público visible bajo los términos vigentes.
+
+Si tu objetivo es demostrar tus habilidades de cara a una colaboración o proceso de selección, tus commits y tu autoría quedarán reflejados públicamente en el historial de Git de este repositorio.
+
+---
+
