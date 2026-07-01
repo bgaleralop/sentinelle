@@ -12,15 +12,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -40,6 +33,7 @@ import es.bgaleralop.sentinelle.domain.model.SentinelleAccount
 import es.bgaleralop.sentinelle.domain.model.SparklinePoint
 import es.bgaleralop.sentinelle.domain.model.enums.Platform
 import es.bgaleralop.sentinelle.domain.model.enums.UserTier
+import es.bgaleralop.sentinelle.presentation.screens.commons.BottomNavigationBar
 import es.bgaleralop.sentinelle.presentation.screens.commons.SmallTopAppBar
 import es.bgaleralop.sentinelle.presentation.screens.dashboard.components.CommentsDashboardCard
 import es.bgaleralop.sentinelle.presentation.screens.dashboard.components.ModeratedCommentCard
@@ -142,27 +136,6 @@ fun DashboardContent(state: DashboardUiState.Success) {
                 ModeratedCommentCard(detailedLog = log)
             }
         }
-    }
-}
-
-@Composable
-fun BottomNavigationBar() {
-    NavigationBar {
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.Notifications, null) },
-            label = { Text("Notificaciones") },
-            selected = false,
-            onClick = {})
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.AccountCircle, null) },
-            label = { Text("Cuentas") },
-            selected = true,
-            onClick = {})
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.Settings, null) },
-            label = { Text("Ajustes") },
-            selected = false,
-            onClick = {})
     }
 }
 
