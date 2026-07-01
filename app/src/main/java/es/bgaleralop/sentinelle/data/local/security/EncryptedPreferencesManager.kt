@@ -42,8 +42,8 @@ class EncryptedPreferencesManager(context: Context) {
     )
 
     fun observeUserTier(): Flow<UserTier> = callbackFlow {
-        val listener = SharedPreferences.OnSharedPreferenceChangeListener{ _, key ->
-            if(key == KEY_USER_TIER){
+        val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key == KEY_USER_TIER) {
                 trySend(getUserTier())
             }
         }

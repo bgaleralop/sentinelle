@@ -40,7 +40,8 @@ class WordLocalImpl(
     }
 
     override fun getBlacklistByAccount(accountId: Long): Flow<List<Word>> {
-        return repository.getBlacklistByAccount(accountId).map { list -> list.map { it.toDomain() } }
+        return repository.getBlacklistByAccount(accountId)
+            .map { list -> list.map { it.toDomain() } }
             .flowOn(Dispatchers.IO)
     }
 
@@ -49,7 +50,7 @@ class WordLocalImpl(
     }
 
     override suspend fun deleteWord(word: Word) {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             repository.deleteWord(word.toEntity())
         }
     }
