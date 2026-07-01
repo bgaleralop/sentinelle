@@ -11,7 +11,7 @@
  *
  */
 
-package es.bgaleralop.sentinelle.ui.screens.dashboard
+package es.bgaleralop.sentinelle.presentation.screens.dashboard
 
 import es.bgaleralop.sentinelle.domain.model.DetailedCommentLog
 import es.bgaleralop.sentinelle.domain.model.SparklinePoint
@@ -24,7 +24,7 @@ import es.bgaleralop.sentinelle.domain.model.enums.UserTier
  * Estados de la pantalla Dashboard.
  */
 sealed interface DashboardUiState {
-    object Loading: DashboardUiState
+    object Loading : DashboardUiState
 
     data class Success(
         val userTier: UserTier,

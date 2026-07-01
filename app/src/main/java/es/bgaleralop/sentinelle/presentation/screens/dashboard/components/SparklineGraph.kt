@@ -11,7 +11,7 @@
  *
  */
 
-package es.bgaleralop.sentinelle.ui.screens.dashboard.components
+package es.bgaleralop.sentinelle.presentation.screens.dashboard.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable

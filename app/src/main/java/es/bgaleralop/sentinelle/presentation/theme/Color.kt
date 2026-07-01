@@ -11,7 +11,7 @@
  *
  */
 
-package es.bgaleralop.sentinelle.ui.theme
+package es.bgaleralop.sentinelle.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
