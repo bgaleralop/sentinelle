@@ -25,12 +25,12 @@ sealed interface ConfigUiState {
     object Loading : ConfigUiState
 
     data class Success(
-        val currentTier: UserTier,
+        val currentTier: UserTier = UserTier.FREE,
         val isAdvanceOptionEnabled: Boolean = currentTier != UserTier.FREE,
-        val isEmojisFilterActivated: Boolean,
-        val isExternalLinksActivated: Boolean,
-        val isAdvanceMatchedActivated: Boolean,
-        val isDarkMode: Boolean,
+        val isEmojisFilterActivated: Boolean = false,
+        val isExternalLinksActivated: Boolean = false,
+        val isAdvanceMatchedActivated: Boolean = false,
+        val isDarkMode: Boolean = true,
     ) : ConfigUiState
 
     data class Error(val message: String) : ConfigUiState
