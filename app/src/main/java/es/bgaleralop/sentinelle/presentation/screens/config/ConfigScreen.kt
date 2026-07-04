@@ -19,13 +19,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import es.bgaleralop.sentinelle.domain.model.enums.UserTier
@@ -43,90 +47,119 @@ import es.bgaleralop.sentinelle.presentation.theme.SentinelleTheme
  * Composable that render the config screen.
  */
 @Composable
-fun ConfigScreen(modifier: Modifier = Modifier) {
+fun ConfigScreen(viewModel: ConfigViewModel, modifier: Modifier = Modifier) {
+    val uiState by viewModel.uiState.collectAsState()
+
     Scaffold { paddingValues ->
         Box(
             modifier = modifier
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(16.dp)
-            ) {
-                ConfigScreenHeader(title = "Ajustes")
-                Box {
-                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        ConfigSectionTitle("Cuentas")
-                        ConfigPlanCard(tier = UserTier.PRO)
-                        ConfigOptionCard(
-                            title = "Cuentas Vinculadas",
-                            buttonTitle = "Ver Cuentas",
-                            action = {}
-                        )
-                    }
-                }
-                Box {
-                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        ConfigSectionTitle("Filtros y Reglas")
-                        ConfigOptionCard(
-                            title = "Blacklist",
-                            buttonTitle = "Ver",
-                            action = {}
-                        )
+            when (val state = uiState) {
+                is ConfigUiState.Loading -> CircularProgressIndicator(
+                    modifier = Modifier.align(
+                        Alignment.Center
+                    )
+                )
 
-                        ConfigOptionCardSwitch(
-                            title = "Filtrado de emojis",
-                            description = "Oculta comentarios con mas de 5 emojis repetidos.",
-                            action = {},
-                            checked = false,
-                            tier = UserTier.PRO
-                        )
-                        ConfigOptionCardSwitch(
-                            title = "Bloquear enlaces externos",
-                            description = "Elimina enlaces de spam o phishing",
-                            tier = UserTier.FREE,
-                            checked = true,
-                            action = {}
-                        )
-                        ConfigOptionCardSwitch(
-                            title = "Detección de Insultos Críticos",
-                            description = "Algoritmo local tolerante a variaciones tipográficas",
-                            tier = UserTier.PRO,
-                            checked = true,
-                            action = {}
-                        )
-                    }
-                }
-                Box {
-                    Column {
-                        ConfigSectionTitle("Preferencias Visuales")
-                        ConfigOptionCard(
-                            title = "Tema de la app",
-                            buttonTitle = "Modo Oscuro",
-                            action = {}
-                        )
-                    }
-                }
-                Box {
-                    Column {
-                        ConfigSectionTitle("Seguridad y Almacenamiento")
-                        ConfigOptionCard(
-                            title = "Políticas y Privacidad",
-                            buttonTitle = "Ver Legal",
-                            action = {}
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.weight(1f))
-                Text(
-                    text = "Sentinelle para Android - v1.0.0(Local first)",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                is ConfigUiState.Error -> Text(
+                    text = state.message,
+                    color = Color.Red,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+
+                is ConfigUiState.Success -> ConfigScreenContent(
+                    state = state,
+                    onNavigateTo = { viewModel.navigateToOption() },
+                    onUpdateConfigOption = { viewModel.updateConfigOption() })
+            }
+        }
+    }
+}
+
+@Composable
+fun ConfigScreenContent(
+    state: ConfigUiState.Success,
+    onNavigateTo: (NavigateToOption) -> Unit,
+    onUpdateConfigOption: (FilterOption) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = modifier.padding(16.dp)
+    ) {
+        ConfigScreenHeader(title = "Ajustes")
+        Box {
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                ConfigSectionTitle("Cuentas")
+                ConfigPlanCard(tier = state.currentTier)
+                ConfigOptionCard(
+                    title = "Cuentas Vinculadas",
+                    buttonTitle = "Ver Cuentas",
+                    action = { onNavigateTo(NavigateToOption.COUNTS) }
                 )
             }
         }
+        Box {
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                ConfigSectionTitle("Filtros y Reglas")
+                ConfigOptionCard(
+                    title = "Blacklist",
+                    buttonTitle = "Ver",
+                    action = { onNavigateTo(NavigateToOption.BLACKLIST) }
+                )
+
+                ConfigOptionCardSwitch(
+                    title = "Filtrado de emojis",
+                    description = "Oculta comentarios con mas de 5 emojis repetidos.",
+                    action = { onUpdateConfigOption(FilterOption.EMOJIS) },
+                    checked = state.isEmojisFilterActivated,
+                    isEnabled = state.isAdvanceOptionEnabled
+                )
+                ConfigOptionCardSwitch(
+                    title = "Bloquear enlaces externos",
+                    description = "Elimina enlaces de spam o phishing",
+                    isEnabled = state.isAdvanceOptionEnabled,
+                    checked = state.isExternalLinksActivated,
+                    action = { onUpdateConfigOption(FilterOption.LINKS) }
+                )
+                ConfigOptionCardSwitch(
+                    title = "Detección de Insultos Críticos",
+                    description = "Algoritmo local tolerante a variaciones tipográficas",
+                    isEnabled = state.isAdvanceOptionEnabled,
+                    checked = state.isAdvanceMatchedActivated,
+                    action = { onUpdateConfigOption(FilterOption.MATCHED) }
+                )
+            }
+        }
+        Box {
+            Column {
+                ConfigSectionTitle("Preferencias Visuales")
+                ConfigOptionCard(
+                    title = "Tema de la app",
+                    buttonTitle = "Modo Oscuro",
+                    action = {}
+                )
+            }
+        }
+        Box {
+            Column {
+                ConfigSectionTitle("Seguridad y Almacenamiento")
+                ConfigOptionCard(
+                    title = "Políticas y Privacidad",
+                    buttonTitle = "Ver Legal",
+                    action = {}
+                )
+            }
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = "Sentinelle para Android - v1.0.0(Local first)",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
     }
 }
 
@@ -135,7 +168,11 @@ fun ConfigScreen(modifier: Modifier = Modifier) {
 private fun ConfigScreenDarkModePreview() {
     SentinelleTheme(darkTheme = true) {
         Surface {
-            ConfigScreen()
+            ConfigScreenContent(
+                ConfigUiState.Success(UserTier.PRO),
+                onNavigateTo = {},
+                onUpdateConfigOption = {}
+            )
         }
     }
 }
@@ -145,7 +182,11 @@ private fun ConfigScreenDarkModePreview() {
 private fun ConfigScreenLightModePreview() {
     SentinelleTheme(darkTheme = false) {
         Surface {
-            ConfigScreen()
+            ConfigScreenContent(
+                ConfigUiState.Success(UserTier.PRO),
+                onNavigateTo = {},
+                onUpdateConfigOption = {}
+            )
         }
     }
 }

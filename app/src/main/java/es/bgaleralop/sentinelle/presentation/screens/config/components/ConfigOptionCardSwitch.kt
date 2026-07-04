@@ -1,3 +1,16 @@
+/*
+ *
+ *  Copyright (C) 2026 Sentinelle Team <bgaleralop@gmail.com>
+ *
+ *  This source code is property of Sentinelle Team.
+ *  It is made available publicly for portfolio evaluation and educational purposes only.
+ *  Commercial use, reproduction, or distribution in any digital storefront is
+ *  strictly prohibited under the PolyForm Noncommercial License 1.0.0.
+ *
+ *  For full license details, see the LICENSE.md file in the root directory.
+ *
+ */
+
 package es.bgaleralop.sentinelle.presentation.screens.config.components
 
 import androidx.compose.foundation.layout.Arrangement
@@ -22,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import es.bgaleralop.sentinelle.domain.model.enums.UserTier
 import es.bgaleralop.sentinelle.presentation.theme.SeafoamTeal
 
 /**
@@ -35,15 +47,12 @@ import es.bgaleralop.sentinelle.presentation.theme.SeafoamTeal
 fun ConfigOptionCardSwitch(
     title: String,
     description: String,
-    tier: UserTier,
+    isEnabled: Boolean,
     checked: Boolean,
     action: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val isEnabled = when (tier) {
-        UserTier.FREE -> false
-        else -> true
-    }
+
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
