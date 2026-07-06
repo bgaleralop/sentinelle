@@ -16,35 +16,22 @@ package es.bgaleralop.sentinelle.presentation.screens.dashboard
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -54,7 +41,6 @@ import es.bgaleralop.sentinelle.domain.model.SentinelleAccount
 import es.bgaleralop.sentinelle.domain.model.SparklinePoint
 import es.bgaleralop.sentinelle.domain.model.enums.Platform
 import es.bgaleralop.sentinelle.domain.model.enums.UserTier
-import es.bgaleralop.sentinelle.presentation.screens.commons.SmallTopAppBar
 import es.bgaleralop.sentinelle.presentation.screens.dashboard.components.CommentsDashboardCard
 import es.bgaleralop.sentinelle.presentation.screens.dashboard.components.ModeratedCommentCard
 import es.bgaleralop.sentinelle.presentation.theme.SentinelleTheme
@@ -73,68 +59,28 @@ fun DashboardScreen(
 ) {
     val uiState by viewModel.uiSate.collectAsState()
 
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        topBar = {
-            SmallTopAppBar(
-                title = {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = "Sentinelle",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.ExtraBold
-                        )
-                        Spacer(
-                            modifier = Modifier
-                                .width(16.dp)
-                                .weight(0.5f)
-                        )
-                        Surface(
-                            modifier = Modifier.padding(bottom = 4.dp, end = 16.dp),
-                            color = Color(0xFF00C9A7).copy(alpha = 0.15f),
-                            shape = RoundedCornerShape(16.dp)
-                        ) {
-                            Text(
-                                text = "Sistema Activo",
-                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                                style = MaterialTheme.typography.labelMedium,
-                                color = Color(0xFF00C9A7)
-                            )
-                        }
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent,
-                    titleContentColor = MaterialTheme.colorScheme.onBackground
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        when (val state = uiState) {
+            is DashboardUiState.Loading -> CircularProgressIndicator(
+                modifier = Modifier.align(
+                    Alignment.Center
                 )
             )
-        },
-        bottomBar = { BottomNavigationBar() },
-        modifier = modifier
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-        ) {
-            when (val state = uiState) {
-                is DashboardUiState.Loading -> CircularProgressIndicator(
-                    modifier = Modifier.align(
-                        Alignment.Center
-                    )
-                )
 
-                is DashboardUiState.Error -> Text(
-                    text = state.message,
-                    color = Color.Red,
-                    modifier = Modifier.align(Alignment.Center)
-                )
+            is DashboardUiState.Error -> Text(
+                text = state.message,
+                color = Color.Red,
+                modifier = Modifier.align(Alignment.Center)
+            )
 
-                is DashboardUiState.Success -> DashboardContent(state = state)
-            }
+            is DashboardUiState.Success -> DashboardContent(state = state)
         }
     }
 }
+
 
 @Composable
 fun DashboardContent(state: DashboardUiState.Success) {
@@ -160,27 +106,6 @@ fun DashboardContent(state: DashboardUiState.Success) {
                 ModeratedCommentCard(detailedLog = log)
             }
         }
-    }
-}
-
-@Composable
-fun BottomNavigationBar() {
-    NavigationBar {
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.Notifications, null) },
-            label = { Text("Notificaciones") },
-            selected = false,
-            onClick = {})
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.AccountCircle, null) },
-            label = { Text("Cuentas") },
-            selected = true,
-            onClick = {})
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.Settings, null) },
-            label = { Text("Ajustes") },
-            selected = false,
-            onClick = {})
     }
 }
 

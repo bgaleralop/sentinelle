@@ -23,7 +23,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -56,33 +55,32 @@ fun ConfigScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Scaffold { paddingValues ->
-        Box(
-            modifier = modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-        ) {
-            when (val state = uiState) {
-                is ConfigUiState.Loading -> CircularProgressIndicator(
-                    modifier = Modifier.align(
-                        Alignment.Center
-                    )
-                )
 
-                is ConfigUiState.Error -> Text(
-                    text = state.message,
-                    color = Color.Red,
-                    modifier = Modifier.align(Alignment.Center)
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        when (val state = uiState) {
+            is ConfigUiState.Loading -> CircularProgressIndicator(
+                modifier = Modifier.align(
+                    Alignment.Center
                 )
+            )
 
-                is ConfigUiState.Success -> ConfigScreenContent(
-                    state = state,
-                    onNavigateTo = { option -> viewModel.navigateToOption(option) },
-                    onUpdateConfigOption = { option -> viewModel.updateConfigOption(option) })
-            }
+            is ConfigUiState.Error -> Text(
+                text = state.message,
+                color = Color.Red,
+                modifier = Modifier.align(Alignment.Center)
+            )
+
+            is ConfigUiState.Success -> ConfigScreenContent(
+                state = state,
+                onNavigateTo = { option -> viewModel.navigateToOption(option) },
+                onUpdateConfigOption = { option -> viewModel.updateConfigOption(option) })
         }
     }
 }
+
 
 @Composable
 fun ConfigScreenContent(
