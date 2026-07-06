@@ -13,6 +13,7 @@
 
 package es.bgaleralop.sentinelle.domain.usecase
 
+import android.util.Log
 import es.bgaleralop.sentinelle.domain.repository.UserRepository
 
 /**
@@ -28,8 +29,11 @@ class ConfigUseCase(
     private var isExternalLinksActivated: Boolean = false
     private var isAdvancedMatchedActivated: Boolean = false
     private var isDarkMode: Boolean = true
+
+    // Mockeada
     fun getUserTier() = userRepository.getUserTier()
     fun canFilterEmojis(): Boolean {
+        Log.i("ConfigUseCase", "Devolviendo canFilterEmojis")
         return isEmojisFilterActivated
     }
 

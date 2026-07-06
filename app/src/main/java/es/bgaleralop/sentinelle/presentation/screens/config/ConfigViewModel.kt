@@ -13,14 +13,15 @@
 
 package es.bgaleralop.sentinelle.presentation.screens.config
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import es.bgaleralop.sentinelle.domain.model.enums.UserTier
 import es.bgaleralop.sentinelle.domain.usecase.ConfigUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,6 +35,8 @@ import javax.inject.Inject
 class ConfigViewModel @Inject constructor(
     private val configUseCase: ConfigUseCase,
 ) : ViewModel() {
+
+    private val TAG = "ConfigViewModel"
     private val _uiState = MutableStateFlow<ConfigUiState>(ConfigUiState.Loading)
     val uiState: StateFlow<ConfigUiState> = _uiState.asStateFlow()
 
@@ -42,35 +45,69 @@ class ConfigViewModel @Inject constructor(
     }
 
     private fun loadConfigData() {
+
+        Log.d(TAG, "loadConfigData: Loading config data")
+
         viewModelScope.launch {
+            Log.d(TAG, "Entrando a la corrutina del viewModel")
+            Log.d(TAG, "Valor de uiState = ${_uiState.value}")
             _uiState.value = ConfigUiState.Loading
+            Log.d(TAG, "Segundo valor de uiState = ${_uiState.value}")
 
             _uiState.value = ConfigUiState.Success(
-                currentTier = configUseCase.getUserTier().last(),
+                currentTier = UserTier.PRO,
                 isEmojisFilterActivated = configUseCase.canFilterEmojis(),
                 isExternalLinksActivated = configUseCase.canFilterExternalLinks(),
                 isAdvanceMatchedActivated = configUseCase.changeAdvanceMatched(),
                 isDarkMode = configUseCase.isDarkMode()
             )
+
+            Log.d(TAG, "current value = ${_uiState.value}")
         }
     }
 
     fun updateConfigOption(option: FilterOption = FilterOption.EMOJIS) {
         when (option) {
-            FilterOption.EMOJIS -> updateEmojis()
-            FilterOption.LINKS -> TODO()
-            FilterOption.MATCHED -> TODO()
-            FilterOption.DARKMODE -> TODO()
+            FilterOption.EMOJIS -> {
+                Log.d(TAG, "updateConfigOption: Updating emojis")
+                updateEmojis()
+            }
+
+            FilterOption.LINKS -> {
+                Log.d(TAG, "updateConfigOption: Updating links")
+                updateLinks()
+            }
+
+            FilterOption.MATCHED -> {
+                Log.d(TAG, "updateConfigOption: Updating matched")
+                updateMatched()
+            }
+
+            FilterOption.DARKMODE -> {
+                Log.d(TAG, "updateConfigOption: Updating dark mode")
+                updateDarkMode()
+            }
         }
 
     }
 
     fun navigateToOption(option: NavigateToOption = NavigateToOption.BLACKLIST) {
         when (option) {
-            NavigateToOption.COUNTS -> TODO()
-            NavigateToOption.TIERS -> TODO()
-            NavigateToOption.BLACKLIST -> TODO()
-            NavigateToOption.LEGAL -> TODO()
+            NavigateToOption.COUNTS -> {
+                Log.d(TAG, "navigateToOption: Navigating to accounts")
+            }
+
+            NavigateToOption.TIERS -> {
+                Log.d(TAG, "navigateToOption: Navigating to tiers")
+            }
+
+            NavigateToOption.BLACKLIST -> {
+                Log.d(TAG, "navigateToOption: Navigating to blacklist")
+            }
+
+            NavigateToOption.LEGAL -> {
+                Log.d(TAG, "navigateToOption: Navigating to legal")
+            }
         }
     }
 
@@ -85,7 +122,40 @@ class ConfigViewModel @Inject constructor(
         }
     }
 
+    private fun updateLinks() {
+        if (_uiState.value is ConfigUiState.Success) {
+            var currentState = _uiState.value as ConfigUiState.Success
+            currentState = currentState.copy(
+                isExternalLinksActivated = configUseCase.changeExternalLinksFilter()
+            )
 
+            _uiState.value = currentState
+        }
+    }
+
+    private fun updateMatched() {
+        if (_uiState.value is ConfigUiState.Success) {
+            var currentState = _uiState.value as ConfigUiState.Success
+            currentState = currentState.copy(
+                isAdvanceMatchedActivated = configUseCase.changeAdvanceMatched()
+            )
+
+            _uiState.value = currentState
+        }
+    }
+
+    private fun updateDarkMode() {
+        if (_uiState.value is ConfigUiState.Success) {
+            var currentState = _uiState.value as ConfigUiState.Success
+            currentState = currentState.copy(
+                isDarkMode = configUseCase.changeDarkMode()
+            )
+
+            _uiState.value = currentState
+        }
+
+
+    }
 }
 
 enum class FilterOption {
