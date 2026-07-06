@@ -15,10 +15,12 @@ package es.bgaleralop.sentinelle.data.local.security
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import es.bgaleralop.sentinelle.domain.model.enums.UserTier
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
@@ -47,14 +49,25 @@ class EncryptedPreferencesManager(context: Context) {
                 trySend(getUserTier())
             }
         }
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
+
+        // Send initial value
+        trySend(getUserTier())
+
+        awaitClose {
+            sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener)
+        }
     }
 
     fun getUserTier(): UserTier {
         val tierName = sharedPreferences.getString(KEY_USER_TIER, UserTier.FREE.name)
 
         return try {
+            Log.d("EncryptedPreferences", "getUserTier: Tier name: $tierName")
             UserTier.valueOf(tierName ?: UserTier.FREE.name)
         } catch (e: Exception) {
+            Log.e("EncryptedPreferences", "getUserTier: Error getting tier", e)
             UserTier.FREE
         }
     }
