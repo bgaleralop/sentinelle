@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import es.bgaleralop.sentinelle.domain.model.enums.UserTier
 import es.bgaleralop.sentinelle.presentation.screens.config.components.ConfigOptionCard
 import es.bgaleralop.sentinelle.presentation.screens.config.components.ConfigOptionCardSwitch
@@ -49,7 +50,10 @@ import es.bgaleralop.sentinelle.presentation.theme.SentinelleTheme
  * Composable that render the config screen.
  */
 @Composable
-fun ConfigScreen(viewModel: ConfigViewModel, modifier: Modifier = Modifier) {
+fun ConfigScreen(
+    modifier: Modifier = Modifier,
+    viewModel: ConfigViewModel = hiltViewModel()
+) {
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold { paddingValues ->
