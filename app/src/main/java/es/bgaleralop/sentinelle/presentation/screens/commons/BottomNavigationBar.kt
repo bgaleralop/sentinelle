@@ -22,15 +22,24 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import es.bgaleralop.sentinelle.presentation.navigation.ConfigRoute
+import es.bgaleralop.sentinelle.presentation.navigation.HomeRoute
 
 @Composable
-fun BottomNavigationBar() {
+fun BottomNavigationBar(
+    navController: NavHostController,
+    currentDestination: NavDestination?,
+) {
     NavigationBar {
         NavigationBarItem(
             icon = { Icon(Icons.Default.Notifications, null) },
             label = { Text("Notificaciones") },
-            selected = false,
-            onClick = {})
+            selected = currentDestination?.hasRoute<HomeRoute>() == true,
+            onClick = { navController.navigateToTab(HomeRoute) })
         NavigationBarItem(
             icon = { Icon(Icons.Default.AccountCircle, null) },
             label = { Text("Cuentas") },
@@ -39,7 +48,18 @@ fun BottomNavigationBar() {
         NavigationBarItem(
             icon = { Icon(Icons.Default.Settings, null) },
             label = { Text("Ajustes") },
-            selected = false,
-            onClick = {})
+            selected = currentDestination?.hasRoute<ConfigRoute>() == true,
+            onClick = { navController.navigateToTab(ConfigRoute) })
+    }
+}
+
+private fun NavHostController.navigateToTab(route: Any) {
+    this.navigate(route) {
+        // Usamos @navigateToTab para indicarle a Kotlin que use el NavHostController de fuera
+        popUpTo(this@navigateToTab.graph.findStartDestination().id) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
     }
 }
