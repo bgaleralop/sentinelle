@@ -43,7 +43,7 @@ fun BottomNavigationBar(
         NavigationBarItem(
             icon = { Icon(Icons.Default.AccountCircle, null) },
             label = { Text("Cuentas") },
-            selected = true,
+            selected = false,
             onClick = {})
         NavigationBarItem(
             icon = { Icon(Icons.Default.Settings, null) },
