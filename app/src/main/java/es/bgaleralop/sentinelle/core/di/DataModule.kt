@@ -25,11 +25,13 @@ import es.bgaleralop.sentinelle.data.local.security.EncryptedPreferencesManager
 import es.bgaleralop.sentinelle.data.repository.AccountRepositoryImpl
 import es.bgaleralop.sentinelle.data.repository.BannedUserRepositoryImpl
 import es.bgaleralop.sentinelle.data.repository.ModerationLogRepositoryImpl
+import es.bgaleralop.sentinelle.data.repository.SparklineRepositoryImpl
 import es.bgaleralop.sentinelle.data.repository.UserRepositoryImpl
 import es.bgaleralop.sentinelle.data.repository.WordLocalImpl
 import es.bgaleralop.sentinelle.domain.repository.AccountRepository
 import es.bgaleralop.sentinelle.domain.repository.BannedUserRepository
 import es.bgaleralop.sentinelle.domain.repository.ModerationLogRepository
+import es.bgaleralop.sentinelle.domain.repository.SparklineRepository
 import es.bgaleralop.sentinelle.domain.repository.UserRepository
 import es.bgaleralop.sentinelle.domain.repository.WordRepository
 import javax.inject.Singleton
@@ -82,5 +84,11 @@ object DataModule {
     @Singleton
     fun provideBannedUserRepository(db: SentinelleDatabase): BannedUserRepository {
         return BannedUserRepositoryImpl(db.bannedUserDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSparklineRepository(): SparklineRepository {
+        return SparklineRepositoryImpl()
     }
 }

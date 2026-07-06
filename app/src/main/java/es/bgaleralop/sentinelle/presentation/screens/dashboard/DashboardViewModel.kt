@@ -40,7 +40,6 @@ class DashboardViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
     private val userRepository: UserRepository,
     private val logRepository: ModerationLogRepository,
-    // Mockeamos la lógica de sparklines por simplicidad.
     private val sparklineRepository: SparklineRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<DashboardUiState>(DashboardUiState.Loading)

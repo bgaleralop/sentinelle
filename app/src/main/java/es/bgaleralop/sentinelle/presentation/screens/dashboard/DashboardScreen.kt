@@ -47,6 +47,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import es.bgaleralop.sentinelle.domain.model.DetailedCommentLog
 import es.bgaleralop.sentinelle.domain.model.ModerationLog
 import es.bgaleralop.sentinelle.domain.model.SentinelleAccount
@@ -66,7 +67,10 @@ import es.bgaleralop.sentinelle.presentation.theme.SentinelleTheme
  */
 
 @Composable
-fun DashboardScreen(viewModel: DashboardViewModel) {
+fun DashboardScreen(
+    modifier: Modifier = Modifier,
+    viewModel: DashboardViewModel = hiltViewModel()
+) {
     val uiState by viewModel.uiSate.collectAsState()
 
     Scaffold(
@@ -106,6 +110,7 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
             )
         },
         bottomBar = { BottomNavigationBar() },
+        modifier = modifier
     ) { paddingValues ->
         Box(
             modifier = Modifier
