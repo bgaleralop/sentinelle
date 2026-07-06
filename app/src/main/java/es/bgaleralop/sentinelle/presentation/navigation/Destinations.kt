@@ -25,7 +25,9 @@ import kotlinx.serialization.Serializable
 // --- Destinos Principales (Bottom Bar) ---
 @Serializable
 object ConfigRoute
+
 @Serializable
 object DashboardRoute
+
 @Serializable
 object HomeRoute
