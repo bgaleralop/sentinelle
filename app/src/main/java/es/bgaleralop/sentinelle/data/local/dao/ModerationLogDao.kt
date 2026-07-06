@@ -47,6 +47,6 @@ interface ModerationLogDao {
     @Query("SELECT COUNT(*) FROM moderation_logs WHERE accountId = :accountId AND isSpam = 1 AND timestamp >= :startOfDay")
     suspend fun getSpamCountToday(accountId: Long, startOfDay: Long): Int
 
-    @Query("SELECT matchedWord as word, COUNT(*) as count FROM moderation_logs WHERE accountId = :accountId AND isSpam = 1 AND matchedWord IS NOT NULL GROUP BY matchedWord ORDER BY count DESC")
+    @Query("SELECT matchedWord as word, COUNT(*) as number FROM moderation_logs WHERE accountId = :accountId AND isSpam = 1 AND matchedWord IS NOT NULL GROUP BY matchedWord ORDER BY number DESC")
     fun getMostActiveSpamWords(accountId: Long): Flow<List<WordStat>>
 }
