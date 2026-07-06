@@ -16,6 +16,7 @@ package es.bgaleralop.sentinelle.data.repository
 import es.bgaleralop.sentinelle.domain.model.SparklinePoint
 import es.bgaleralop.sentinelle.domain.repository.SparklineRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 class SparklineRepositoryImpl : SparklineRepository {
     private val fakeSparklineData = listOf(
@@ -26,8 +27,6 @@ class SparklineRepositoryImpl : SparklineRepository {
     )
 
     override fun getChecksSparklineToday(startTimestamp: Long): Flow<List<SparklinePoint>> {
-        val flow: Flow<List<SparklinePoint>> = fakeSparklineData as Flow<List<SparklinePoint>>
-
-        return flow
+        return flowOf(fakeSparklineData)
     }
 }
