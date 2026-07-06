@@ -25,6 +25,7 @@ import es.bgaleralop.sentinelle.presentation.navigation.AppNavHost
 import es.bgaleralop.sentinelle.presentation.navigation.ConfigRoute
 import es.bgaleralop.sentinelle.presentation.navigation.HomeRoute
 import es.bgaleralop.sentinelle.presentation.screens.commons.BottomNavigationBar
+import es.bgaleralop.sentinelle.presentation.screens.commons.MyTopAppBar
 
 @Composable
 fun MainScreen() {
@@ -35,8 +36,10 @@ fun MainScreen() {
     // Control dinámico de visibilidad para la barra inferior
     val showBottomBar = currentDestination?.hasRoute<HomeRoute>() == true ||
             currentDestination?.hasRoute<ConfigRoute>() == true
+    val showTopAppBar = currentDestination?.hasRoute<HomeRoute>() == true
 
     Scaffold(
+        topBar = { if (showTopAppBar) MyTopAppBar() },
         bottomBar = {
             if (showBottomBar) {
                 BottomNavigationBar(navController, currentDestination)
