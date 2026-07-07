@@ -13,7 +13,7 @@
 
 package es.bgaleralop.sentinelle.domain.usecase
 
-import android.util.Log
+import es.bgaleralop.sentinelle.domain.model.enums.UserTier
 import es.bgaleralop.sentinelle.domain.repository.UserRepository
 
 /**
@@ -32,34 +32,43 @@ class ConfigUseCase(
 
     // Mockeada
     fun getUserTier() = userRepository.getUserTier()
-    fun canFilterEmojis(): Boolean {
-        Log.i("ConfigUseCase", "Devolviendo canFilterEmojis")
+
+    fun canFilterEmojis(tier: UserTier): Boolean {
+        if (tier == UserTier.FREE) return false
         return isEmojisFilterActivated
     }
 
-    fun canFilterExternalLinks(): Boolean {
+    fun canFilterExternalLinks(tier: UserTier): Boolean {
+        if (tier == UserTier.FREE) return false
         return isExternalLinksActivated
     }
 
-    fun canFilterAdvancedMatched(): Boolean {
+    fun canFilterAdvancedMatched(tier: UserTier): Boolean {
+        if (tier == UserTier.FREE) return false
         return isAdvancedMatchedActivated
     }
 
     fun isDarkMode() = isDarkMode
 
-    fun changeEmojisFilter(): Boolean {
-        isEmojisFilterActivated = !isEmojisFilterActivated
-        return isEmojisFilterActivated
+    fun changeEmojisFilter(tier: UserTier): Boolean {
+        if (tier != UserTier.FREE) {
+            isEmojisFilterActivated = !isEmojisFilterActivated
+        }
+        return canFilterEmojis(tier)
     }
 
-    fun changeExternalLinksFilter(): Boolean {
-        isExternalLinksActivated = !isExternalLinksActivated
-        return isExternalLinksActivated
+    fun changeExternalLinksFilter(tier: UserTier): Boolean {
+        if (tier != UserTier.FREE) {
+            isExternalLinksActivated = !isExternalLinksActivated
+        }
+        return canFilterExternalLinks(tier)
     }
 
-    fun changeAdvanceMatched(): Boolean {
-        isAdvancedMatchedActivated = !isAdvancedMatchedActivated
-        return isAdvancedMatchedActivated
+    fun changeAdvanceMatched(tier: UserTier): Boolean {
+        if (tier != UserTier.FREE) {
+            isAdvancedMatchedActivated = !isAdvancedMatchedActivated
+        }
+        return canFilterAdvancedMatched(tier)
     }
 
     fun changeDarkMode(): Boolean {
