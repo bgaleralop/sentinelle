@@ -17,7 +17,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import es.bgaleralop.sentinelle.domain.model.enums.UserTier
 import es.bgaleralop.sentinelle.domain.usecase.ConfigUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -45,24 +44,18 @@ class ConfigViewModel @Inject constructor(
     }
 
     private fun loadConfigData() {
-
         Log.d(TAG, "loadConfigData: Loading config data")
-
         viewModelScope.launch {
-            Log.d(TAG, "Entrando a la corrutina del viewModel")
-            Log.d(TAG, "Valor de uiState = ${_uiState.value}")
             _uiState.value = ConfigUiState.Loading
-            Log.d(TAG, "Segundo valor de uiState = ${_uiState.value}")
-
-            _uiState.value = ConfigUiState.Success(
-                currentTier = UserTier.PRO,
-                isEmojisFilterActivated = configUseCase.canFilterEmojis(),
-                isExternalLinksActivated = configUseCase.canFilterExternalLinks(),
-                isAdvanceMatchedActivated = configUseCase.changeAdvanceMatched(),
-                isDarkMode = configUseCase.isDarkMode()
-            )
-
-            Log.d(TAG, "current value = ${_uiState.value}")
+            configUseCase.getUserTier().collect { tier ->
+                _uiState.value = ConfigUiState.Success(
+                    currentTier = tier,
+                    isEmojisFilterActivated = configUseCase.canFilterEmojis(tier),
+                    isExternalLinksActivated = configUseCase.canFilterExternalLinks(tier),
+                    isAdvanceMatchedActivated = configUseCase.canFilterAdvancedMatched(tier),
+                    isDarkMode = configUseCase.isDarkMode()
+                )
+            }
         }
     }
 
@@ -113,34 +106,28 @@ class ConfigViewModel @Inject constructor(
 
     private fun updateEmojis() {
         if (_uiState.value is ConfigUiState.Success) {
-            var currentState = _uiState.value as ConfigUiState.Success
-            currentState = currentState.copy(
-                isEmojisFilterActivated = configUseCase.changeEmojisFilter()
+            val currentState = _uiState.value as ConfigUiState.Success
+            _uiState.value = currentState.copy(
+                isEmojisFilterActivated = configUseCase.changeEmojisFilter(currentState.currentTier)
             )
-
-            _uiState.value = currentState
         }
     }
 
     private fun updateLinks() {
         if (_uiState.value is ConfigUiState.Success) {
-            var currentState = _uiState.value as ConfigUiState.Success
-            currentState = currentState.copy(
-                isExternalLinksActivated = configUseCase.changeExternalLinksFilter()
+            val currentState = _uiState.value as ConfigUiState.Success
+            _uiState.value = currentState.copy(
+                isExternalLinksActivated = configUseCase.changeExternalLinksFilter(currentState.currentTier)
             )
-
-            _uiState.value = currentState
         }
     }
 
     private fun updateMatched() {
         if (_uiState.value is ConfigUiState.Success) {
-            var currentState = _uiState.value as ConfigUiState.Success
-            currentState = currentState.copy(
-                isAdvanceMatchedActivated = configUseCase.changeAdvanceMatched()
+            val currentState = _uiState.value as ConfigUiState.Success
+            _uiState.value = currentState.copy(
+                isAdvanceMatchedActivated = configUseCase.changeAdvanceMatched(currentState.currentTier)
             )
-
-            _uiState.value = currentState
         }
     }
 
