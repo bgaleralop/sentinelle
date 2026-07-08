@@ -44,7 +44,9 @@ fun NavGraphBuilder.configGraph(
 
     // Subpantalla: Cuentas Vinculadas.
     composable<AccountsRoute> {
-        AccountScreen()
+        AccountScreen(
+            onBack = { navController.popBackStack() },
+        )
     }
 
     composable<PlansRoute> {

@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import es.bgaleralop.sentinelle.domain.model.SentinelleAccount
 import es.bgaleralop.sentinelle.domain.model.enums.Platform
 import es.bgaleralop.sentinelle.domain.model.enums.UserTier
@@ -52,7 +53,11 @@ import es.bgaleralop.sentinelle.presentation.theme.SentinelleTheme
  * Composable that render AccountScreen.
  */
 @Composable
-fun AccountScreen(viewModel: AccountViewModel, modifier: Modifier = Modifier) {
+fun AccountScreen(
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit = {},
+    viewModel: AccountViewModel = hiltViewModel()
+) {
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold { paddingValues ->
@@ -78,6 +83,7 @@ fun AccountScreen(viewModel: AccountViewModel, modifier: Modifier = Modifier) {
                     state = state,
                     tier = UserTier.PRO,
                     onAddAccount = {},
+                    onBack = { onBack() },
                     onDeleteClick = { id -> viewModel.removeAccount(id) }
                 )
             }
@@ -91,6 +97,7 @@ fun AccountContent(
     tier: UserTier,
     onAddAccount: () -> Unit,
     onDeleteClick: (Long) -> Unit,
+    onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -98,7 +105,7 @@ fun AccountContent(
             .fillMaxSize()
             .padding(16.dp),
     ) {
-        AccountsHeader(title = "Sentinelle", tier = tier)
+        AccountsHeader(title = "Sentinelle", tier = tier, onBack = onBack)
 
         Spacer(modifier = Modifier.padding(12.dp))
 
@@ -110,6 +117,13 @@ fun AccountContent(
 
         Spacer(modifier = Modifier.padding(8.dp))
 
+        if (state.accounts.isEmpty()) {
+            Text(
+                text = "No hay cuentas vinculadas.",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
         LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             items(state.accounts) { account ->
                 AccountCard(account = account, onDeleteClick = onDeleteClick)
@@ -128,7 +142,7 @@ fun AccountContent(
             )
         }
 
-        Spacer(modifier = Modifier.weight(0.4f))
+        Spacer(modifier = Modifier.padding(top = 48.dp))
 
         HorizontalDivider()
         Text(
@@ -172,6 +186,7 @@ fun AccountScreenDarkModePreview() {
                 state = fakeSuccessState,
                 tier = UserTier.PRO,
                 onAddAccount = {},
+                onBack = {},
                 onDeleteClick = {})
         }
     }
@@ -183,9 +198,10 @@ fun AccountScreenLightModePreview() {
     SentinelleTheme(darkTheme = false) {
         Surface(color = MaterialTheme.colorScheme.background) {
             AccountContent(
-                state = fakeSuccessState,
+                state = fakeSuccessState.copy(accounts = emptyList()),
                 tier = UserTier.FREE,
                 onAddAccount = {},
+                onBack = {},
                 onDeleteClick = {})
         }
     }
