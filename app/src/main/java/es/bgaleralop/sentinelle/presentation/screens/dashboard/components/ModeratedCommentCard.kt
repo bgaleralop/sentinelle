@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Report
 import androidx.compose.material3.Button
@@ -42,11 +41,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import es.bgaleralop.sentinelle.R
 import es.bgaleralop.sentinelle.core.utils.selectCardBorderColor
 import es.bgaleralop.sentinelle.domain.model.DetailedCommentLog
 import es.bgaleralop.sentinelle.domain.model.ModerationLog
@@ -63,6 +64,10 @@ import es.bgaleralop.sentinelle.presentation.theme.SentinelleTheme
 @Composable
 fun ModeratedCommentCard(detailedLog: DetailedCommentLog, modifier: Modifier = Modifier) {
     val borderColor = selectCardBorderColor(detailedLog.account.platform)
+    val painterResource = when (detailedLog.account.platform) {
+        Platform.INSTAGRAM -> R.drawable.ic_instagram
+        Platform.TIKTOK -> R.drawable.ic_tiktok
+    }
 
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -76,10 +81,10 @@ fun ModeratedCommentCard(detailedLog: DetailedCommentLog, modifier: Modifier = M
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    imageVector = Icons.Default.AccountCircle,
+                    painter = painterResource(painterResource),
                     contentDescription = null,
                     modifier = Modifier.size(24.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    tint = Color.Unspecified
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
