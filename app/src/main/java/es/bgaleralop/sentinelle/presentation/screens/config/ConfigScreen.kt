@@ -123,7 +123,7 @@ fun ConfigScreenContent(
 
                 ConfigOptionCardSwitch(
                     title = "Filtrado de emojis",
-                    description = "Oculta comentarios con mas de 5 emojis repetidos.",
+                    description = "Actúa sobre emojis masivos.",
                     action = { onUpdateConfigOption(FilterOption.EMOJIS) },
                     checked = state.isEmojisFilterActivated,
                     isEnabled = state.isAdvanceOptionEnabled
@@ -136,8 +136,8 @@ fun ConfigScreenContent(
                     action = { onUpdateConfigOption(FilterOption.LINKS) }
                 )
                 ConfigOptionCardSwitch(
-                    title = "Detección de Insultos Críticos",
-                    description = "Algoritmo local tolerante a variaciones tipográficas",
+                    title = "Euristica Avanzada",
+                    description = "Comprueba variaciones tipográficas.",
                     isEnabled = state.isAdvanceOptionEnabled,
                     checked = state.isAdvanceMatchedActivated,
                     action = { onUpdateConfigOption(FilterOption.MATCHED) }
