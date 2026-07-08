@@ -19,6 +19,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import es.bgaleralop.sentinelle.domain.repository.UserRepository
 import es.bgaleralop.sentinelle.domain.usecase.ConfigUseCase
+import es.bgaleralop.sentinelle.domain.usecase.GetUserTierUseCase
 import javax.inject.Singleton
 
 /**
@@ -35,5 +36,11 @@ object ServiceModule {
     @Singleton
     fun provideConfigDataUseCase(userRepository: UserRepository): ConfigUseCase {
         return ConfigUseCase(userRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetUserTierUseCase(userRepository: UserRepository): GetUserTierUseCase {
+        return GetUserTierUseCase(userRepository)
     }
 }

@@ -11,29 +11,10 @@
  *
  */
 
-package es.bgaleralop.sentinelle.presentation.navigation
+package es.bgaleralop.sentinelle.domain.usecase
 
-import kotlinx.serialization.Serializable
+import es.bgaleralop.sentinelle.domain.repository.UserRepository
 
-/**
- * @author Bartolomé Galera López (bgaleralop)
- * @date 06-07-2026
- *
- * Archivo que contiene las rutas para la navegación.
- */
-
-// --- Destinos Principales (Bottom Bar) ---
-@Serializable
-object ConfigRoute
-
-@Serializable
-object DashboardRoute
-
-@Serializable
-object HomeRoute
-
-@Serializable
-object PlansRoute
-
-@Serializable
-object AccountsRoute
+class GetUserTierUseCase(private val userRepository: UserRepository) {
+    operator fun invoke() = userRepository.getUserTier()
+}

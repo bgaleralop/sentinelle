@@ -28,6 +28,7 @@ import es.bgaleralop.sentinelle.presentation.navigation.graphs.homeGraph
 @Composable
 fun AppNavHost(
     navController: NavHostController,
+    onNavigateToExternalStore: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     NavHost(
@@ -37,6 +38,6 @@ fun AppNavHost(
     ) {
         // Acoplamos los submodulos de navegacion de forma limpia.
         homeGraph(navController)
-        configGraph(navController)
+        configGraph(navController, onNavigateToExternalStore)
     }
 }

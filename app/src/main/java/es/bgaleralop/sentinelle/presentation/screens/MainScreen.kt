@@ -13,11 +13,13 @@
 
 package es.bgaleralop.sentinelle.presentation.screens
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -25,7 +27,7 @@ import es.bgaleralop.sentinelle.presentation.navigation.AppNavHost
 import es.bgaleralop.sentinelle.presentation.navigation.ConfigRoute
 import es.bgaleralop.sentinelle.presentation.navigation.HomeRoute
 import es.bgaleralop.sentinelle.presentation.screens.commons.BottomNavigationBar
-import es.bgaleralop.sentinelle.presentation.screens.commons.MyTopAppBar
+import es.bgaleralop.sentinelle.presentation.screens.commons.MainTopAppBar
 
 @Composable
 fun MainScreen() {
@@ -37,9 +39,10 @@ fun MainScreen() {
     val showBottomBar = currentDestination?.hasRoute<HomeRoute>() == true ||
             currentDestination?.hasRoute<ConfigRoute>() == true
     val showTopAppBar = currentDestination?.hasRoute<HomeRoute>() == true
+    val showSecondaryTopBar = !showTopAppBar && !showBottomBar
 
     Scaffold(
-        topBar = { if (showTopAppBar) MyTopAppBar() },
+        topBar = { if (showTopAppBar) MainTopAppBar() },
         bottomBar = {
             if (showBottomBar) {
                 BottomNavigationBar(navController, currentDestination)
@@ -48,7 +51,8 @@ fun MainScreen() {
     ) { innerPadding ->
         AppNavHost(
             navController = navController,
-            modifier = Modifier.padding(innerPadding)
+            onNavigateToExternalStore = { /*TODO*/ },
+            modifier = Modifier.padding(if (!showSecondaryTopBar) innerPadding else PaddingValues(0.dp))
         )
     }
 }
