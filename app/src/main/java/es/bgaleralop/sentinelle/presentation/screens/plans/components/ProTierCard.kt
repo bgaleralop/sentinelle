@@ -1,3 +1,16 @@
+/*
+ *
+ *  Copyright (C) 2026 Sentinelle Team <bgaleralop@gmail.com>
+ *
+ *  This source code is property of Sentinelle Team.
+ *  It is made available publicly for portfolio evaluation and educational purposes only.
+ *  Commercial use, reproduction, or distribution in any digital storefront is
+ *  strictly prohibited under the PolyForm Noncommercial License 1.0.0.
+ *
+ *  For full license details, see the LICENSE.md file in the root directory.
+ *
+ */
+
 package es.bgaleralop.sentinelle.presentation.screens.plans.components
 
 import androidx.compose.foundation.BorderStroke
@@ -18,7 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ProTierCard(selected: Boolean, onSelected: () -> Unit, modifier: Modifier = Modifier) {
+fun ProTierCard(modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.large,
@@ -38,12 +51,12 @@ fun ProTierCard(selected: Boolean, onSelected: () -> Unit, modifier: Modifier = 
                 Column {
                     Text(
                         text = "Plan Creador Pro",
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
                         text = "Hasta 5 cuentas",
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }

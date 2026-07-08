@@ -20,6 +20,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -64,13 +66,16 @@ fun PlansScreen(
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
+            val scrollState = rememberScrollState()
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
+                    .padding(all = 16.dp)
+                    .verticalScroll(scrollState)
             ) {
                 PlanScreenHeader()
-                FreeTierCard(selected = true, onSelected = {})
-                ProTierCard(selected = false, onSelected = {})
+                FreeTierCard()
+                ProTierCard()
 
                 Button(
                     onClick = { onGoToSubscription() },
@@ -80,7 +85,7 @@ fun PlansScreen(
                 ) {
                     Text(
                         text = "Suscribirse con Google Play",
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.Bold,
                         color = Color.White,
                         fontFamily = FontFamily.SansSerif
@@ -93,13 +98,13 @@ fun PlansScreen(
 
                         Text(
                             text = "Suscripción mensual recurrente gestionada de forma segura por Google Play.",
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Spacer(modifier = Modifier.padding(vertical = 2.dp))
                         Text(
                             text = "Cancela cuando quieras desde tu perfil de la tienda.",
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
