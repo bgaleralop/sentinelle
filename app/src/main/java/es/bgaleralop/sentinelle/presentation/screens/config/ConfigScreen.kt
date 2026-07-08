@@ -51,6 +51,7 @@ import es.bgaleralop.sentinelle.presentation.theme.SentinelleTheme
 @Composable
 fun ConfigScreen(
     modifier: Modifier = Modifier,
+    onNavigateTo: (NavigateToOption) -> Unit,
     viewModel: ConfigViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -75,7 +76,7 @@ fun ConfigScreen(
 
             is ConfigUiState.Success -> ConfigScreenContent(
                 state = state,
-                onNavigateTo = { option -> viewModel.navigateToOption(option) },
+                onNavigateTo = { option -> onNavigateTo(option) },
                 onUpdateConfigOption = { option -> viewModel.updateConfigOption(option) })
         }
     }
@@ -101,7 +102,9 @@ fun ConfigScreenContent(
         Box {
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 ConfigSectionTitle("Cuentas")
-                ConfigPlanCard(tier = state.currentTier)
+                ConfigPlanCard(
+                    tier = state.currentTier,
+                    onClick = { onNavigateTo(NavigateToOption.TIERS) })
                 ConfigOptionCard(
                     title = "Cuentas Vinculadas",
                     buttonTitle = "Ver Cuentas",

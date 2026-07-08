@@ -1,3 +1,16 @@
+/*
+ *
+ *  Copyright (C) 2026 Sentinelle Team <bgaleralop@gmail.com>
+ *
+ *  This source code is property of Sentinelle Team.
+ *  It is made available publicly for portfolio evaluation and educational purposes only.
+ *  Commercial use, reproduction, or distribution in any digital storefront is
+ *  strictly prohibited under the PolyForm Noncommercial License 1.0.0.
+ *
+ *  For full license details, see the LICENSE.md file in the root directory.
+ *
+ */
+
 package es.bgaleralop.sentinelle.presentation.screens.config.components
 
 import androidx.compose.foundation.layout.Arrangement
@@ -26,7 +39,11 @@ import es.bgaleralop.sentinelle.presentation.theme.SeafoamTeal
  * Plan Card for the config screen.
  */
 @Composable
-fun ConfigPlanCard(tier: UserTier, modifier: Modifier = Modifier) {
+fun ConfigPlanCard(
+    tier: UserTier,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
@@ -61,7 +78,7 @@ fun ConfigPlanCard(tier: UserTier, modifier: Modifier = Modifier) {
             }
             Spacer(modifier = Modifier.weight(0.4f))
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { onClick() },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                     contentColor = MaterialTheme.colorScheme.primary

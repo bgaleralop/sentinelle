@@ -31,7 +31,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import es.bgaleralop.sentinelle.domain.model.enums.UserTier
+import es.bgaleralop.sentinelle.presentation.screens.commons.SecondaryScreenTopAppBar
 import es.bgaleralop.sentinelle.presentation.screens.plans.components.FreeTierCard
 import es.bgaleralop.sentinelle.presentation.screens.plans.components.PlanScreenHeader
 import es.bgaleralop.sentinelle.presentation.screens.plans.components.ProTierCard
@@ -45,8 +45,20 @@ import es.bgaleralop.sentinelle.presentation.theme.SentinelleTheme
  */
 
 @Composable
-fun PlansScreen(currentTier: UserTier, onSubscribe: () -> Unit, modifier: Modifier = Modifier) {
-    Scaffold(modifier = modifier) { paddingValues ->
+fun PlansScreen(
+    modifier: Modifier = Modifier,
+    onGoBack: () -> Unit = {},
+    onGoToSubscription: () -> Unit = {}
+) {
+    Scaffold(
+        topBar = {
+            SecondaryScreenTopAppBar(
+                onGoBack = onGoBack,
+                title = "Planes"
+            )
+        },
+        modifier = modifier
+    ) { paddingValues ->
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -61,7 +73,7 @@ fun PlansScreen(currentTier: UserTier, onSubscribe: () -> Unit, modifier: Modifi
                 ProTierCard(selected = false, onSelected = {})
 
                 Button(
-                    onClick = { onSubscribe() },
+                    onClick = { onGoToSubscription() },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
@@ -102,7 +114,7 @@ fun PlansScreen(currentTier: UserTier, onSubscribe: () -> Unit, modifier: Modifi
 @Composable
 fun PlanScreenDarkModePreview() {
     SentinelleTheme(darkTheme = true) {
-        PlansScreen(currentTier = UserTier.FREE, onSubscribe = {})
+        PlansScreen()
     }
 }
 
@@ -110,6 +122,6 @@ fun PlanScreenDarkModePreview() {
 @Composable
 fun PlanScreenLightModePreview() {
     SentinelleTheme(darkTheme = false) {
-        PlansScreen(currentTier = UserTier.PRO, onSubscribe = {})
+        PlansScreen()
     }
 }

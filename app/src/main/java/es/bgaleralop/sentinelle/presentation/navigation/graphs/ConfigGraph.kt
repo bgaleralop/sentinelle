@@ -16,14 +16,41 @@ package es.bgaleralop.sentinelle.presentation.navigation.graphs
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import es.bgaleralop.sentinelle.presentation.navigation.AccountsRoute
 import es.bgaleralop.sentinelle.presentation.navigation.ConfigRoute
+import es.bgaleralop.sentinelle.presentation.navigation.PlansRoute
+import es.bgaleralop.sentinelle.presentation.screens.accounts.AccountScreen
 import es.bgaleralop.sentinelle.presentation.screens.config.ConfigScreen
+import es.bgaleralop.sentinelle.presentation.screens.config.NavigateToOption
+import es.bgaleralop.sentinelle.presentation.screens.plans.PlansScreen
 
-fun NavGraphBuilder.configGraph(navController: NavController) {
+fun NavGraphBuilder.configGraph(
+    navController: NavController,
+    onNavigateToExternalStore: () -> Unit,
+) {
     // Pantalla Principal de Configuración.
     composable<ConfigRoute> {
-        ConfigScreen()
+        ConfigScreen(
+            onNavigateTo = { option ->
+                when (option) {
+                    NavigateToOption.COUNTS -> navController.navigate(AccountsRoute)
+                    NavigateToOption.TIERS -> navController.navigate(PlansRoute)
+                    NavigateToOption.BLACKLIST -> TODO()
+                    NavigateToOption.LEGAL -> TODO()
+                }
+            }
+        )
     }
 
     // Subpantalla: Cuentas Vinculadas.
+    composable<AccountsRoute> {
+        AccountScreen()
+    }
+
+    composable<PlansRoute> {
+        PlansScreen(
+            onGoBack = { navController.popBackStack() },
+            onGoToSubscription = { TODO() }
+        )
+    }
 }

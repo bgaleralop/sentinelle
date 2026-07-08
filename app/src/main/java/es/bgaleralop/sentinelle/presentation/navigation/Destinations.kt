@@ -31,3 +31,9 @@ object DashboardRoute
 
 @Serializable
 object HomeRoute
+
+@Serializable
+object PlansRoute
+
+@Serializable
+object AccountsRoute

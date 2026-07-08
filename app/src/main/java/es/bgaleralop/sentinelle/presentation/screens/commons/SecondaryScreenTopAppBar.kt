@@ -13,13 +13,15 @@
 
 package es.bgaleralop.sentinelle.presentation.screens.commons
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -27,48 +29,50 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 
 /**
  * @author Bartolomé Galera López (bgaleralop)
- * @date 28-07-2026
+ * @date 08-07-2026
  *
- * Composable que renderiza un TopAppBar grande.
+ * Composable que renderiza un TopAppBar secundario.
  */
 @Composable
-fun MainTopAppBar(modifier: Modifier = Modifier) {
+fun SecondaryScreenTopAppBar(
+    onGoBack: () -> Unit,
+    title: String,
+    modifier: Modifier = Modifier
+) {
     SmallTopAppBar(
         title = {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = modifier.fillMaxWidth(),
+            ) {
                 Text(
-                    text = "Sentinelle",
+                    text = title,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.ExtraBold
                 )
-                Spacer(
-                    modifier = Modifier
-                        .width(16.dp)
-                        .weight(0.5f)
-                )
-                Surface(
-                    modifier = Modifier.padding(bottom = 4.dp, end = 16.dp),
-                    color = Color(0xFF00C9A7).copy(alpha = 0.15f),
-                    shape = RoundedCornerShape(16.dp)
-                ) {
-                    Text(
-                        text = "Sistema Activo",
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = Color(0xFF00C9A7)
-                    )
-                }
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
             titleContentColor = MaterialTheme.colorScheme.onBackground
         ),
+        navigationIcon = {
+            IconButton(
+                onClick = { onGoBack() }, colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = Color.Transparent
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Volver",
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
+            }
+        },
         modifier = modifier
     )
 }
-
