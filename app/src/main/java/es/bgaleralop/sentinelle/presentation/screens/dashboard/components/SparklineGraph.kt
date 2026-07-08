@@ -15,6 +15,7 @@ package es.bgaleralop.sentinelle.presentation.screens.dashboard.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -42,14 +43,12 @@ fun SparklineGraph(
     // Validamos que existan suficientes puntos para trazar una línea
     if (points.size < 2) return
 
+    val maxCount = remember(points) { points.maxOf { it.count }.toFloat().coerceAtLeast(1f) }
+    val minCount = 0f
+
     Canvas(modifier = modifier) {
         val width = size.width
         val height = size.height
-
-        // Encontramos los extremos para escalar correctamente la UI sin desbordamientos
-        val maxCount = points.maxOf { it.count }.toFloat().coerceAtLeast(1f)
-        // Fijamos el mínimo en 0 para que la gráfica tenga un suelo realista
-        val minCount = 0f
 
         // Distancia horizontal idéntica entre cada nodo del gráfico
         val distanceX = width / (points.size - 1)

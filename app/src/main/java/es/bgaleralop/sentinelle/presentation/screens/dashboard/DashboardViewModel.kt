@@ -21,11 +21,13 @@ import es.bgaleralop.sentinelle.domain.repository.AccountRepository
 import es.bgaleralop.sentinelle.domain.repository.ModerationLogRepository
 import es.bgaleralop.sentinelle.domain.repository.SparklineRepository
 import es.bgaleralop.sentinelle.domain.repository.UserRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -61,14 +63,17 @@ class DashboardViewModel @Inject constructor(
                 sparklineRepository.getChecksSparklineToday(currentTime),
                 logRepository.getAllLogs()
             ) { tier, accounts, sparklineData, logs ->
+                // Mapeo rápido O(1) usando Map en lugar de buscar en lista O(N)
+                val accountsMap = accounts.associateBy { it.id }
+                
                 val currentCounts = sparklineData.lastOrNull()?.count ?: 0
 
-                val detailedLogs = logs.mapNotNull { log ->
-                    val account = accounts.find { it.id == log.accountId }
-                    account?.let {
+                // Limitamos a los 50 logs más recientes para no saturar el hilo principal si la DB crece
+                val detailedLogs = logs.take(50).mapNotNull { log ->
+                    accountsMap[log.accountId]?.let { account ->
                         DetailedCommentLog(
                             log = log,
-                            account = it,
+                            account = account,
                             matchedWord = log.matchedWord
                         )
                     }
@@ -81,7 +86,8 @@ class DashboardViewModel @Inject constructor(
                     recentModerationLogs = detailedLogs,
                     accountCount = accounts.size
                 )
-            }.catch { e ->
+            }.flowOn(Dispatchers.Default) // Realizamos el procesamiento pesado fuera del hilo principal
+                .catch { e ->
                 _uiState.value = DashboardUiState.Error(e.message ?: "Error desconocido")
             }.collect { state ->
                 _uiState.value = state

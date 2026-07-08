@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.bgaleralop.sentinelle.domain.usecase.ConfigUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -45,7 +46,7 @@ class ConfigViewModel @Inject constructor(
 
     private fun loadConfigData() {
         Log.d(TAG, "loadConfigData: Loading config data")
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _uiState.value = ConfigUiState.Loading
             configUseCase.getUserTier().collect { tier ->
                 _uiState.value = ConfigUiState.Success(
