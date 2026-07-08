@@ -97,7 +97,8 @@ fun ConfigOptionCardSwitch(
                     Color.White,
                     SeafoamTeal
                 ),
-                enabled = isEnabled
+                enabled = isEnabled,
+                modifier = Modifier.padding(end = 12.dp)
             )
         }
     }
