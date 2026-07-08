@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -33,9 +32,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import es.bgaleralop.sentinelle.R
 import es.bgaleralop.sentinelle.core.utils.selectCardBorderColor
 import es.bgaleralop.sentinelle.domain.model.SentinelleAccount
+import es.bgaleralop.sentinelle.domain.model.enums.Platform
 
 /**
  * @author Bartolomé Galera López (bgaleralop)
@@ -51,6 +54,10 @@ fun AccountCard(
     numComments: Int = 0
 ) {
     val borderColor = selectCardBorderColor(account.platform)
+    val resource = when (account.platform) {
+        Platform.INSTAGRAM -> R.drawable.ic_instagram
+        Platform.TIKTOK -> R.drawable.ic_tiktok
+    }
 
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -64,10 +71,10 @@ fun AccountCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Circle,
+                    painter = painterResource(resource),
                     contentDescription = null,
                     modifier = Modifier.size(24.dp),
-                    tint = borderColor.copy(alpha = 1f)
+                    tint = Color.Unspecified
                 )
                 Spacer(modifier = Modifier.padding(4.dp))
                 Column {
