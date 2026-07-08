@@ -1,3 +1,16 @@
+/*
+ *
+ *  Copyright (C) 2026 Sentinelle Team <bgaleralop@gmail.com>
+ *
+ *  This source code is property of Sentinelle Team.
+ *  It is made available publicly for portfolio evaluation and educational purposes only.
+ *  Commercial use, reproduction, or distribution in any digital storefront is
+ *  strictly prohibited under the PolyForm Noncommercial License 1.0.0.
+ *
+ *  For full license details, see the LICENSE.md file in the root directory.
+ *
+ */
+
 package es.bgaleralop.sentinelle.presentation.screens.plans.components
 
 import androidx.compose.foundation.layout.Arrangement
@@ -22,7 +35,7 @@ import androidx.compose.ui.unit.dp
  * Composable que renderiza la tarjeta de plan gratuito.
  */
 @Composable
-fun FreeTierCard(selected: Boolean, onSelected: () -> Unit, modifier: Modifier = Modifier) {
+fun FreeTierCard(modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.large,
@@ -39,24 +52,24 @@ fun FreeTierCard(selected: Boolean, onSelected: () -> Unit, modifier: Modifier =
             Column {
                 Text(
                     text = "Plan Básico",
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = "Acceso a 1 cuenta por plataforma.",
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
                     text = "Filtrado de 200 comentarios/día.",
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
             Spacer(modifier = Modifier.weight(0.4f))
             Text(
                 text = "Gratis",
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface
             )
         }
