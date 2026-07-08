@@ -23,6 +23,6 @@ import kotlinx.coroutines.flow.Flow
  * Interface for the user repository.
  */
 interface UserRepository {
-    fun getUserTier(): Flow<UserTier>
+    suspend fun getUserTier(): Flow<UserTier>
     suspend fun setUserTier(tier: UserTier)
 }

@@ -24,7 +24,7 @@ import kotlinx.coroutines.withContext
 class UserRepositoryImpl(
     private val prefsManager: EncryptedPreferencesManager
 ) : UserRepository {
-    override fun getUserTier(): Flow<UserTier> {
+    override suspend fun getUserTier(): Flow<UserTier> {
         return prefsManager.observeUserTier().flowOn(Dispatchers.IO)
     }
 

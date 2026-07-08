@@ -31,7 +31,7 @@ class ConfigUseCase(
     private var isDarkMode: Boolean = true
 
     // Mockeada
-    fun getUserTier() = userRepository.getUserTier()
+    suspend fun getUserTier() = userRepository.getUserTier()
 
     fun canFilterEmojis(tier: UserTier): Boolean {
         if (tier == UserTier.FREE) return false

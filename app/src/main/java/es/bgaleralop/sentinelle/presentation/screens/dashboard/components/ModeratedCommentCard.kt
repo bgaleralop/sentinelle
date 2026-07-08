@@ -38,6 +38,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -69,6 +70,20 @@ fun ModeratedCommentCard(detailedLog: DetailedCommentLog, modifier: Modifier = M
         Platform.TIKTOK -> R.drawable.ic_tiktok
     }
 
+    val highlightColor = MaterialTheme.colorScheme.tertiary.copy(0.4f)
+    val moderatedText =
+        remember(detailedLog.log.commentText, detailedLog.matchedWord, highlightColor) {
+            buildModeratedText(
+                detailedLog.log.commentText,
+                detailedLog.matchedWord ?: "",
+                highlightColor
+            )
+        }
+
+    val timeSince = remember(detailedLog.log.timestamp) {
+        calculatedTimeSince(detailedLog.log.timestamp)
+    }
+
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
@@ -96,10 +111,7 @@ fun ModeratedCommentCard(detailedLog: DetailedCommentLog, modifier: Modifier = M
             Spacer(modifier = Modifier.height(8.dp))
             // Comentario original y detalles (resaltando palabras como seguidores y peor)
             Text(
-                text = buildModeratedText(
-                    detailedLog.log.commentText,
-                    detailedLog.matchedWord ?: ""
-                ),
+                text = moderatedText,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface,
             )
@@ -123,7 +135,7 @@ fun ModeratedCommentCard(detailedLog: DetailedCommentLog, modifier: Modifier = M
                     Spacer(modifier = Modifier.width(8.dp))
 
                     Text(
-                        text = "hace ${calculatedTimeSince(detailedLog.log.timestamp)}",
+                        text = "hace $timeSince",
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -168,20 +180,22 @@ fun ModeratedCommentCard(detailedLog: DetailedCommentLog, modifier: Modifier = M
 
 }
 
-@Composable
 fun buildModeratedText(
     fullText: String,
-    keyword: String
+    keyword: String,
+    highlightColor: Color
 ): AnnotatedString {
     return buildAnnotatedString {
         append(fullText)
+
+        if (keyword.isBlank()) return@buildAnnotatedString
 
         val regex = Regex(Regex.escape(keyword), RegexOption.IGNORE_CASE)
 
         regex.findAll(fullText).forEach { matchResult ->
             addStyle(
                 style = SpanStyle(
-                    background = MaterialTheme.colorScheme.tertiary.copy(0.4f),
+                    background = highlightColor,
                 ),
                 start = matchResult.range.first,
                 end = matchResult.range.last + 1
