@@ -13,8 +13,11 @@
 
 package es.bgaleralop.sentinelle.domain.usecase
 
+import es.bgaleralop.sentinelle.domain.model.UserSettingsState
 import es.bgaleralop.sentinelle.domain.model.enums.UserTier
 import es.bgaleralop.sentinelle.domain.repository.UserRepository
+import kotlinx.coroutines.flow.StateFlow
+import javax.inject.Inject
 
 /**
  * @author Bartolomé Galera López (bgaleralop)
@@ -22,57 +25,58 @@ import es.bgaleralop.sentinelle.domain.repository.UserRepository
  *
  *
  */
-class ConfigUseCase(
+class ConfigUseCase @Inject constructor(
     private val userRepository: UserRepository,
 ) {
-    private var isEmojisFilterActivated: Boolean = false
-    private var isExternalLinksActivated: Boolean = false
-    private var isAdvancedMatchedActivated: Boolean = false
-    private var isDarkMode: Boolean = true
+    val settingsState: StateFlow<UserSettingsState> = userRepository.settingsState
 
     // Mockeada
-    suspend fun getUserTier() = userRepository.getUserTier()
+    fun getUserTier() = settingsState.value.userTier
 
     fun canFilterEmojis(tier: UserTier): Boolean {
         if (tier == UserTier.FREE) return false
-        return isEmojisFilterActivated
+        return userRepository.getCachedSettings().isEmojisFilterEnabled
     }
 
     fun canFilterExternalLinks(tier: UserTier): Boolean {
         if (tier == UserTier.FREE) return false
-        return isExternalLinksActivated
+        return userRepository.getCachedSettings().isExternalLinksFilterEnabled
     }
 
     fun canFilterAdvancedMatched(tier: UserTier): Boolean {
         if (tier == UserTier.FREE) return false
-        return isAdvancedMatchedActivated
+        return userRepository.getCachedSettings().isAdvancedMatchedFilterEnabled
     }
 
-    fun isDarkMode() = isDarkMode
+    fun isDarkMode() = userRepository.getCachedSettings().isDarkMode
 
-    fun changeEmojisFilter(tier: UserTier): Boolean {
+    suspend fun changeEmojisFilter(tier: UserTier): Boolean {
         if (tier != UserTier.FREE) {
-            isEmojisFilterActivated = !isEmojisFilterActivated
+            val current = userRepository.getCachedSettings().isEmojisFilterEnabled
+            userRepository.setEmojisFilter(!current)
         }
         return canFilterEmojis(tier)
     }
 
-    fun changeExternalLinksFilter(tier: UserTier): Boolean {
+    suspend fun changeExternalLinksFilter(tier: UserTier): Boolean {
         if (tier != UserTier.FREE) {
-            isExternalLinksActivated = !isExternalLinksActivated
+            val current = userRepository.getCachedSettings().isExternalLinksFilterEnabled
+            userRepository.setExternalLinks(!current)
         }
         return canFilterExternalLinks(tier)
     }
 
-    fun changeAdvanceMatched(tier: UserTier): Boolean {
+    suspend fun changeAdvanceMatched(tier: UserTier): Boolean {
         if (tier != UserTier.FREE) {
-            isAdvancedMatchedActivated = !isAdvancedMatchedActivated
+            val current = userRepository.getCachedSettings().isAdvancedMatchedFilterEnabled
+            userRepository.setAdvancedMatchedFilter(!current)
         }
         return canFilterAdvancedMatched(tier)
     }
 
-    fun changeDarkMode(): Boolean {
-        isDarkMode = !isDarkMode
-        return isDarkMode
+    suspend fun changeDarkMode(): Boolean {
+        val current = userRepository.getCachedSettings().isDarkMode
+        userRepository.setDarkMode(!current)
+        return !current
     }
 }

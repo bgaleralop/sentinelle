@@ -10,11 +10,11 @@
  *  For full license details, see the LICENSE.md file in the root directory.
  *
  */
-
 package es.bgaleralop.sentinelle.core.di
 
 import android.content.Context
 import androidx.room.Room
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,61 +34,82 @@ import es.bgaleralop.sentinelle.domain.repository.ModerationLogRepository
 import es.bgaleralop.sentinelle.domain.repository.SparklineRepository
 import es.bgaleralop.sentinelle.domain.repository.UserRepository
 import es.bgaleralop.sentinelle.domain.repository.WordRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DataModule {
+abstract class DataModule {
 
-    @Provides
-    @Singleton
-    fun provideDataBase(@ApplicationContext context: Context): SentinelleDatabase {
-        return Room.databaseBuilder(
-            context,
-            SentinelleDatabase::class.java,
-            "sentinelle_database"
-        ).fallbackToDestructiveMigration(true).build() // Destructiva para agilizar el MVP
-    }
+    // --- ENLACES DE REPOSITORIOS (Abstracciones) ---
+    // @Binds es mucho más eficiente y limpio para nuestras propias clases
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideEncryptedPreferences(@ApplicationContext context: Context): EncryptedPreferencesManager {
-        return EncryptedPreferencesManager(context)
-    }
+    abstract fun bindUserRepository(impl: UserRepositoryImpl): UserRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideUserRepository(prefs: EncryptedPreferencesManager): UserRepository {
-        return UserRepositoryImpl(prefs)
-    }
+    abstract fun bindAccountRepository(impl: AccountRepositoryImpl): AccountRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideAccountRepository(db: SentinelleDatabase): AccountRepository {
-        return AccountRepositoryImpl(db.accountDao)
-    }
+    abstract fun bindBlacklistRepository(impl: WordLocalImpl): WordRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideBlacklistRepository(db: SentinelleDatabase): WordRepository {
-        return WordLocalImpl(db.blacklistDao)
-    }
+    abstract fun bindModerationLogRepository(impl: ModerationLogRepositoryImpl): ModerationLogRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideModerationLogRepository(db: SentinelleDatabase): ModerationLogRepository {
-        return ModerationLogRepositoryImpl(db.moderationLogDao)
-    }
+    abstract fun bindBannedUserRepository(impl: BannedUserRepositoryImpl): BannedUserRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideBannedUserRepository(db: SentinelleDatabase): BannedUserRepository {
-        return BannedUserRepositoryImpl(db.bannedUserDao)
-    }
+    abstract fun bindSparklineRepository(impl: SparklineRepositoryImpl): SparklineRepository
 
-    @Provides
-    @Singleton
-    fun provideSparklineRepository(): SparklineRepository {
-        return SparklineRepositoryImpl()
+
+    companion object {
+        // --- PROVEEDORES DE LIBRERÍAS EXTERNAS (Instanciaciones) ---
+
+        @Provides
+        @Singleton
+        fun provideDataBase(@ApplicationContext context: Context): SentinelleDatabase {
+            return Room.databaseBuilder(
+                context,
+                SentinelleDatabase::class.java,
+                "sentinelle_database"
+            ).fallbackToDestructiveMigration(true).build()
+        }
+
+        @Provides
+        @Singleton
+        fun provideEncryptedPreferences(@ApplicationContext context: Context): EncryptedPreferencesManager {
+            return EncryptedPreferencesManager(context)
+        }
+
+        @Provides
+        @Singleton
+        @ApplicationScope // Enlazado mediante el Qualifier
+        fun provideApplicationScope(): CoroutineScope {
+            return CoroutineScope(SupervisorJob() + Dispatchers.Default)
+        }
+
+        // --- PROVEEDORES DE DAOS ---
+
+        @Provides
+        fun provideAccountDao(db: SentinelleDatabase) = db.accountDao
+
+        @Provides
+        fun provideBannedUserDao(db: SentinelleDatabase) = db.bannedUserDao
+
+        @Provides
+        fun provideBlacklistDao(db: SentinelleDatabase) = db.blacklistDao
+
+        @Provides
+        fun provideModerationLogDao(db: SentinelleDatabase) = db.moderationLogDao
     }
 }

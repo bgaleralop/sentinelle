@@ -43,17 +43,18 @@ class EncryptedPreferencesManager(context: Context) {
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
 
-    fun observeUserTier(): Flow<UserTier> = callbackFlow {
-        val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            if (key == KEY_USER_TIER) {
-                trySend(getUserTier())
-            }
+    /**
+     * Notifica cualquier cambio en el archivo de SharedPreferences
+     */
+    fun observePreferencesChanged(): Flow<Unit> = callbackFlow {
+        val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
+            trySend(Unit)
         }
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
 
         // Send initial value
-        trySend(getUserTier())
+        trySend(Unit)
 
         awaitClose {
             sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener)
@@ -76,7 +77,54 @@ class EncryptedPreferencesManager(context: Context) {
         sharedPreferences.edit { putString(KEY_USER_TIER, tier.name) }
     }
 
+    fun setEmojisFilter(enabled: Boolean) {
+        sharedPreferences.edit { putBoolean(KEY_EMOJIS_FILTER, enabled) }
+    }
+
+    fun getEmojisFilter(): Boolean {
+        return sharedPreferences.getBoolean(KEY_EMOJIS_FILTER, false)
+    }
+
+    fun setExternalLinks(enabled: Boolean) {
+        sharedPreferences.edit { putBoolean(KEY_EXTERNAL_LINKS_FILTER, enabled) }
+    }
+
+    fun getExternalLinks(): Boolean {
+        return sharedPreferences.getBoolean(KEY_EXTERNAL_LINKS_FILTER, false)
+    }
+
+    fun setAdvancedMatchedFilter(enabled: Boolean) {
+        sharedPreferences.edit { putBoolean(KEY_ADVANCED_MATCHED_FILTER, enabled) }
+    }
+
+    fun getAdvancedMatchedFilter(): Boolean {
+        return sharedPreferences.getBoolean(KEY_ADVANCED_MATCHED_FILTER, false)
+    }
+
+    fun setDarkMode(enabled: Boolean) {
+        sharedPreferences.edit { putBoolean(KEY_DARK_MODE, enabled) }
+    }
+
+    fun getDarkMode(): Boolean {
+        return sharedPreferences.getBoolean(KEY_DARK_MODE, true)
+    }
+
+    fun setLastFetch(lastFetch: Long) {
+        sharedPreferences.edit { putLong(KEY_LAST_FETCH, lastFetch) }
+    }
+
+    fun getLastFetch(): Long {
+        return sharedPreferences.getLong(KEY_LAST_FETCH, 0L)
+    }
+
+
+
     companion object {
         private const val KEY_USER_TIER = "secure_key_user_tier"
+        private const val KEY_EMOJIS_FILTER = "emojis_filter"
+        private const val KEY_EXTERNAL_LINKS_FILTER = "external_links_filter"
+        private const val KEY_ADVANCED_MATCHED_FILTER = "advanced_matched_filter"
+        private const val KEY_DARK_MODE = "dark_mode"
+        private const val KEY_LAST_FETCH = "last_fetch"
     }
 }

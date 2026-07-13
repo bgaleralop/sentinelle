@@ -52,7 +52,7 @@ fun NavGraphBuilder.configGraph(
     composable<PlansRoute> {
         PlansScreen(
             onGoBack = { navController.popBackStack() },
-            onGoToSubscription = { TODO() }
+            onGoToSubscription = { onNavigateToExternalStore() }
         )
     }
 }
