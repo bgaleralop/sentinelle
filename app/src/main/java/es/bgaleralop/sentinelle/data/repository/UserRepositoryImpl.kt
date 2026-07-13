@@ -13,24 +13,59 @@
 
 package es.bgaleralop.sentinelle.data.repository
 
+import es.bgaleralop.sentinelle.core.di.ApplicationScope
 import es.bgaleralop.sentinelle.data.local.security.EncryptedPreferencesManager
+import es.bgaleralop.sentinelle.domain.model.UserSettingsState
 import es.bgaleralop.sentinelle.domain.model.enums.UserTier
 import es.bgaleralop.sentinelle.domain.repository.UserRepository
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
-class UserRepositoryImpl(
-    private val prefsManager: EncryptedPreferencesManager
+class UserRepositoryImpl @Inject constructor(
+    private val prefsManager: EncryptedPreferencesManager,
+    @ApplicationScope externalScope: CoroutineScope
 ) : UserRepository {
-    override suspend fun getUserTier(): Flow<UserTier> {
-        return prefsManager.observeUserTier().flowOn(Dispatchers.IO)
+    // Cada vez que obserPreferencesChanged emite, se mapea la foto actual a UserSettingState
+    override val settingsState: StateFlow<UserSettingsState> =
+        prefsManager.observePreferencesChanged()
+            .map {
+                UserSettingsState(
+                    userTier = prefsManager.getUserTier(),
+                    isEmojisFilterEnabled = prefsManager.getEmojisFilter(),
+                    isExternalLinksFilterEnabled = prefsManager.getExternalLinks(),
+                    isAdvancedMatchedFilterEnabled = prefsManager.getAdvancedMatchedFilter(),
+                    isDarkMode = prefsManager.getDarkMode(),
+                )
+            }
+            .stateIn(
+                scope = externalScope,
+                started = SharingStarted.Eagerly, // Se inicializa inmediatamente con el proceso de la app
+                initialValue = UserSettingsState()
+            )
+
+    override fun getCachedSettings(): UserSettingsState {
+        return settingsState.value
     }
 
-    override suspend fun setUserTier(tier: UserTier) {
-        withContext(Dispatchers.IO) {
-            return@withContext prefsManager.setUserTier(tier)
-        }
+    /*TODO("FUNCION MOCKEADA PARA PRUEBAS*/
+    @Deprecated("Read directly from settingsStore instead")
+    override suspend fun getUserTier(): Flow<UserTier> {
+        return flowOf(UserTier.PRO)
     }
+
+    // Escrituras
+    override suspend fun setUserTier(tier: UserTier) = prefsManager.setUserTier(tier)
+    override suspend fun setEmojisFilter(enabled: Boolean) = prefsManager.setEmojisFilter(enabled)
+    override suspend fun setExternalLinks(enabled: Boolean) = prefsManager.setExternalLinks(enabled)
+    override suspend fun setAdvancedMatchedFilter(enabled: Boolean) =
+        prefsManager.setAdvancedMatchedFilter(enabled)
+
+    override suspend fun setDarkMode(enabled: Boolean) = prefsManager.setDarkMode(enabled)
+    override suspend fun setLastFetch(timestamp: Long) = prefsManager.setLastFetch(timestamp)
 }

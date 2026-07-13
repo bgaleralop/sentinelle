@@ -23,8 +23,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class BannedUserRepositoryImpl(private val bannedUserDao: BannedUserDao) : BannedUserRepository {
+class BannedUserRepositoryImpl @Inject constructor(private val bannedUserDao: BannedUserDao) :
+    BannedUserRepository {
     override fun getBannedUsersByAccount(accountId: Long): Flow<List<BannedUser>> =
         bannedUserDao.getBannedUsersByAccount(accountId)
             .map { list -> list.map { it.toDomain() } }.flowOn(Dispatchers.IO)

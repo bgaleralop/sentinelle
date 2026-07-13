@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 /**
  * @author Bartolomé Galera López (bgaleralop)
@@ -30,7 +31,7 @@ import kotlinx.coroutines.withContext
  *
  * Implementation of AccountRepository to access room database.
  */
-class AccountRepositoryImpl(
+class AccountRepositoryImpl @Inject constructor(
     private val accountDao: AccountDao
 ) : AccountRepository {
     override fun getActiveAccounts(): Flow<List<SentinelleAccount>> {

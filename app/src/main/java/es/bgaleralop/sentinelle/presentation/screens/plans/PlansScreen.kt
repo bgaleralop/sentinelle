@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import es.bgaleralop.sentinelle.presentation.screens.commons.SecondaryScreenTopAppBar
 import es.bgaleralop.sentinelle.presentation.screens.plans.components.FreeTierCard
 import es.bgaleralop.sentinelle.presentation.screens.plans.components.PlanScreenHeader
@@ -50,7 +51,8 @@ import es.bgaleralop.sentinelle.presentation.theme.SentinelleTheme
 fun PlansScreen(
     modifier: Modifier = Modifier,
     onGoBack: () -> Unit = {},
-    onGoToSubscription: () -> Unit = {}
+    onGoToSubscription: () -> Unit = {},
+    viewModel: PlansViewModel = hiltViewModel()
 ) {
     Scaffold(
         topBar = {
@@ -78,7 +80,7 @@ fun PlansScreen(
                 ProTierCard()
 
                 Button(
-                    onClick = { onGoToSubscription() },
+                    onClick = { viewModel.updateTier() },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)

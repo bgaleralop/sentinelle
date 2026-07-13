@@ -24,8 +24,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ModerationLogRepositoryImpl(private val logDao: ModerationLogDao) : ModerationLogRepository {
+class ModerationLogRepositoryImpl @Inject constructor(private val logDao: ModerationLogDao) :
+    ModerationLogRepository {
     override fun getLogsByAccount(accountId: Long): Flow<List<ModerationLog>> =
         logDao.getLogsByAccount(accountId)
             .map { list -> list.map { it.toDomain() } }.flowOn(Dispatchers.IO)

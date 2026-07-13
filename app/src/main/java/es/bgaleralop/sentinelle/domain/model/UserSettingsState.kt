@@ -11,17 +11,21 @@
  *
  */
 
-package es.bgaleralop.sentinelle.domain.model.enums
+package es.bgaleralop.sentinelle.domain.model
+
+import es.bgaleralop.sentinelle.domain.model.enums.UserTier
 
 /**
  * @author Bartolomé Galera López (bgaleralop)
- * @date 24-06-2026
+ * @date 09-07-2026
  *
- * Enumeration that represent the different actions that the user can take when
- * there is a coincidence with a blacklist word.
+ * Data class that represent the user settings state.
  */
-enum class BlacklistAction {
-    DELETE, // Borrado fulminante de la API
-    HIDE, // Ocultar comentario (Shadow ban / Solo disponible en Pro/Enterprise)
-    RESTORE // Restaurar comentario
-}
+data class UserSettingsState(
+    val userTier: UserTier = UserTier.FREE,
+    val isEmojisFilterEnabled: Boolean = false,
+    val isExternalLinksFilterEnabled: Boolean = false,
+    val isAdvancedMatchedFilterEnabled: Boolean = false,
+    val isDarkMode: Boolean = true,
+    val lastFetch: Long = 0L
+)
