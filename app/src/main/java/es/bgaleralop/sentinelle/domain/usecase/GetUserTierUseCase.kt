@@ -16,5 +16,5 @@ package es.bgaleralop.sentinelle.domain.usecase
 import es.bgaleralop.sentinelle.domain.repository.UserRepository
 
 class GetUserTierUseCase(private val userRepository: UserRepository) {
-    suspend operator fun invoke() = userRepository.getUserTier()
+    operator fun invoke() = userRepository.settingsState.value.userTier
 }
