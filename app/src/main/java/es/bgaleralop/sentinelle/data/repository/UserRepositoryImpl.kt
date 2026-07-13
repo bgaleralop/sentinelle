@@ -31,6 +31,11 @@ class UserRepositoryImpl @Inject constructor(
     private val prefsManager: EncryptedPreferencesManager,
     @ApplicationScope externalScope: CoroutineScope
 ) : UserRepository {
+
+    init {
+        UserRepository.globalInstance = this
+    }
+
     // Cada vez que obserPreferencesChanged emite, se mapea la foto actual a UserSettingState
     override val settingsState: StateFlow<UserSettingsState> =
         prefsManager.observePreferencesChanged()

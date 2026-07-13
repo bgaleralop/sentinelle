@@ -44,7 +44,7 @@ interface UserRepository {
     suspend fun setLastFetch(timestamp: Long)
 
     companion object {
-        val globalInstance: UserRepository? = null
+        var globalInstance: UserRepository? = null
 
         val currentSettings: UserSettingsState
             get() = globalInstance?.getCachedSettings() ?: UserSettingsState()
