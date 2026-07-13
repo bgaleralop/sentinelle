@@ -11,17 +11,12 @@
  *
  */
 
-package es.bgaleralop.sentinelle.domain.model.enums
+package es.bgaleralop.sentinelle.core.rules
 
-/**
- * @author Bartolomé Galera López (bgaleralop)
- * @date 24-06-2026
- *
- * Enumeration that represent the different actions that the user can take when
- * there is a coincidence with a blacklist word.
- */
-enum class BlacklistAction {
-    DELETE, // Borrado fulminante de la API
-    HIDE, // Ocultar comentario (Shadow ban / Solo disponible en Pro/Enterprise)
-    RESTORE // Restaurar comentario
-}
+const val MAX_FREE_COMMENTS: Int = 200
+const val MAX_PRO_COMMENTS: Int = -1 // Sin limite
+const val MAX_FREE_ACCOUNTS: Int = 2
+const val MAX_PRO_ACCOUNTS: Int = 5
+const val MAX_ENTERPRISE_ACCOUNTS: Int = 50
+
+const val PAGINATION_COMMENTS_SIZE: Int = 20
