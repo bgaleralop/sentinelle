@@ -42,4 +42,11 @@ interface UserRepository {
     suspend fun setAdvancedMatchedFilter(enabled: Boolean)
     suspend fun setDarkMode(enabled: Boolean)
     suspend fun setLastFetch(timestamp: Long)
+
+    companion object {
+        var globalInstance: UserRepository? = null
+
+        val currentSettings: UserSettingsState
+            get() = globalInstance?.getCachedSettings() ?: UserSettingsState()
+    }
 }
