@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 /**
  * @author Bartolomé Galera López (bgaleralop)
@@ -31,7 +32,7 @@ import kotlinx.coroutines.withContext
  *
  * Implementation of our WordRepository.
  */
-class WordLocalImpl(
+class WordLocalImpl @Inject constructor(
     private val repository: BlacklistDao
 ) : WordRepository {
     override fun getBlacklist(): Flow<List<Word>> {

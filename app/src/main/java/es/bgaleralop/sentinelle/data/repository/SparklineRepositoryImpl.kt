@@ -17,8 +17,9 @@ import es.bgaleralop.sentinelle.domain.model.SparklinePoint
 import es.bgaleralop.sentinelle.domain.repository.SparklineRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import javax.inject.Inject
 
-class SparklineRepositoryImpl : SparklineRepository {
+class SparklineRepositoryImpl @Inject constructor() : SparklineRepository {
     private val fakeSparklineData = listOf(
         SparklinePoint(hour = 8, count = 2),
         SparklinePoint(hour = 10, count = 5),
