@@ -37,3 +37,6 @@ object PlansRoute
 
 @Serializable
 object AccountsRoute
+
+@Serializable
+object BlackListRoute

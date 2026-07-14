@@ -17,9 +17,11 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import es.bgaleralop.sentinelle.presentation.navigation.AccountsRoute
+import es.bgaleralop.sentinelle.presentation.navigation.BlackListRoute
 import es.bgaleralop.sentinelle.presentation.navigation.ConfigRoute
 import es.bgaleralop.sentinelle.presentation.navigation.PlansRoute
 import es.bgaleralop.sentinelle.presentation.screens.accounts.AccountScreen
+import es.bgaleralop.sentinelle.presentation.screens.blacklist.BlacklistScreen
 import es.bgaleralop.sentinelle.presentation.screens.config.ConfigScreen
 import es.bgaleralop.sentinelle.presentation.screens.config.NavigateToOption
 import es.bgaleralop.sentinelle.presentation.screens.plans.PlansScreen
@@ -35,7 +37,7 @@ fun NavGraphBuilder.configGraph(
                 when (option) {
                     NavigateToOption.COUNTS -> navController.navigate(AccountsRoute)
                     NavigateToOption.TIERS -> navController.navigate(PlansRoute)
-                    NavigateToOption.BLACKLIST -> TODO()
+                    NavigateToOption.BLACKLIST -> navController.navigate(BlackListRoute)
                     NavigateToOption.LEGAL -> TODO()
                 }
             }
@@ -53,6 +55,12 @@ fun NavGraphBuilder.configGraph(
         PlansScreen(
             onGoBack = { navController.popBackStack() },
             onGoToSubscription = { onNavigateToExternalStore() }
+        )
+    }
+
+    composable<BlackListRoute> {
+        BlacklistScreen(
+            onGoBack = { navController.popBackStack() }
         )
     }
 }
