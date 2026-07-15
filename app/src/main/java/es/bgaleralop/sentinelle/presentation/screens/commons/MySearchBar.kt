@@ -27,6 +27,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**
+ * @author Bartolomé Galera López(bgaleralop)
+ * @date 15-07-2026
+ *
+ * Component that render my searchbar
+ */
 @Composable
 fun MySearchBar(
     query: String,
@@ -53,6 +59,8 @@ fun MySearchBar(
             )
         },
         colors = TextFieldDefaults.colors(),
-        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp)
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
     )
 }
