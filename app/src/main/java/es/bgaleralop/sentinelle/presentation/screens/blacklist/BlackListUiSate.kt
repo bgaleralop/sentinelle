@@ -11,11 +11,17 @@
  *
  */
 
-package es.bgaleralop.sentinelle.presentation.screens.blacklist.components
+package es.bgaleralop.sentinelle.presentation.screens.blacklist
 
 import es.bgaleralop.sentinelle.domain.model.BannedUser
 import es.bgaleralop.sentinelle.domain.model.Word
 
+/**
+ * @author Bartolomé Galera López (bgaleralop)
+ * @date 15-07-2026
+ *
+ * State for the BlacklistScreen
+ */
 data class BlackListUiSate(
     val currentTab: Int = 0,
     val query: String = "",

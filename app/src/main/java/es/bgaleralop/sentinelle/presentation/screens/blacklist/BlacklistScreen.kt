@@ -13,35 +13,32 @@
 
 package es.bgaleralop.sentinelle.presentation.screens.blacklist
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import es.bgaleralop.sentinelle.presentation.screens.blacklist.components.BlacklistUsersScreen
+import es.bgaleralop.sentinelle.presentation.screens.blacklist.components.KeyWordsTabContent
+import es.bgaleralop.sentinelle.presentation.screens.commons.MySearchBar
 import es.bgaleralop.sentinelle.presentation.screens.commons.SecondaryScreenTopAppBar
 import es.bgaleralop.sentinelle.presentation.theme.SentinelleTheme
 import kotlinx.coroutines.launch
@@ -52,19 +49,19 @@ import kotlinx.coroutines.launch
  *
  * Composable que renderiza la pantalla de Lista Negra.
  */
+
+val viewModel = BlacklistViewModel()
 @Composable
 fun BlacklistScreen(
     modifier: Modifier = Modifier,
+    //viewModel: BlacklistViewModel = hiltViewModel(),
     onGoBack: () -> Unit = {}
 ) {
+    val viewModel = viewModel
+    val uiState by viewModel.uiSate.collectAsState()
+
     val pagerState = rememberPagerState(initialPage = 0) { 2 }
-    val placeholder: String = rememberSaveable {
-        when (pagerState.currentPage) {
-            0 -> "Buscar Palabras... "
-            1 -> "Buscar Usuarios... "
-            else -> "Buscar ..."
-        }
-    }
+
     val coroutineScope = rememberCoroutineScope()
     val tabs = listOf("Palabras", "Usuarios")
 
@@ -79,10 +76,15 @@ fun BlacklistScreen(
     ) { paddingValues ->
         Column(
             verticalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = modifier.padding(paddingValues)
+            modifier = modifier
+                .padding(paddingValues)
+                .padding(16.dp)
         ) {
             MySearchBar(
-                placeholder = placeholder
+                query = uiState.query,
+                placeholder = getPlaceholder(uiState.currentTab),
+                onUpdate = { update -> viewModel.onUpdateQuery(update) },
+                onSubmit = { }
             )
             PrimaryTabRow(
                 selectedTabIndex = pagerState.currentPage,
@@ -93,6 +95,7 @@ fun BlacklistScreen(
                         onClick = {
                             coroutineScope.launch {
                                 pagerState.animateScrollToPage(index)
+                                viewModel.updateCurrentTab(index)
                             }
                         },
                         text = { Text(text = title) }
@@ -102,7 +105,10 @@ fun BlacklistScreen(
 
             HorizontalPager(state = pagerState) { page ->
                 when (page) {
-                    0 -> BlacklistWordsScreen()
+                    0 -> KeyWordsTabContent(
+                        words = uiState.filteredWords,
+                        onDelete = { id -> viewModel.deleteWord(id) }
+                    )
                     1 -> BlacklistUsersScreen()
                 }
             }
@@ -111,42 +117,10 @@ fun BlacklistScreen(
     }
 }
 
-@Composable
-fun MySearchBar(
-    modifier: Modifier = Modifier,
-    query: String = "",
-    placeholder: String = "",
-    onUpdate: (String) -> Unit = {},
-    onSubmit: () -> Unit = {},
-) {
-    OutlinedTextField(
-        value = query,
-        onValueChange = { onUpdate(it) },
-        placeholder = { Text(text = placeholder) },
-        singleLine = true,
-        maxLines = 1,
-        shape = ShapeDefaults.ExtraLarge,
-        suffix = {
-            Icon(
-                imageVector = Icons.Default.Search,
-                null,
-                modifier = Modifier.clickable(
-                    enabled = true,
-                    onClick = { onSubmit() }
-                )
-            )
-        },
-        colors = TextFieldDefaults.colors(),
-        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp)
-    )
-}
-
-@Composable
-fun BlacklistWordsScreen(
-    modifier: Modifier = Modifier,
-    searchQuery: String = "",
-) {
-
+private fun getPlaceholder(currentTab: Int) = when (currentTab) {
+    0 -> "Buscar Palabras..."
+    1 -> "Buscar Usuarios..."
+    else -> "Buscar..."
 }
 
 @Preview(showBackground = true, name = "Test A - Dark UI Mode", widthDp = 390, heightDp = 844)
@@ -168,3 +142,5 @@ fun BlacklistScreenLightPreview() {
         }
     }
 }
+
+
