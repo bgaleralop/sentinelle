@@ -11,22 +11,16 @@
  *
  */
 
-package es.bgaleralop.sentinelle.domain.model
-
-import es.bgaleralop.sentinelle.domain.model.enums.BlacklistAction
-import es.bgaleralop.sentinelle.domain.model.enums.SearchType
+package es.bgaleralop.sentinelle.domain.model.enums
 
 /**
  * @author Bartolomé Galera López (bgaleralop)
- * @date 23-06-2026
+ * @date 15-07-2026
  *
- * Data class that represent a word in our blacklist
+ * Enumeración que recoge los diferentes tipos de búsqueda que se aplicarán a la hora de filtrar una
+ * palabra.
  */
-data class Word(
-    val id: Long = 0,
-    val accountId: Long,
-    val word: String,
-    val action: BlacklistAction,
-    val matches: Int = 0,
-    val searchType: SearchType = SearchType.CONTAINING
-)
+enum class SearchType {
+    EXACT,
+    CONTAINING
+}
