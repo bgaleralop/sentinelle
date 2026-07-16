@@ -15,6 +15,7 @@ package es.bgaleralop.sentinelle.presentation.screens.blacklist
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -130,6 +131,7 @@ fun BlacklistScreen(
             ModalBottomSheet(
                 onDismissRequest = { showSheet = false },
                 sheetState = sheetState,
+                modifier = Modifier.navigationBarsPadding()
             ) {
                 when (pagerState.currentPage) {
                     0 -> AddWordForm(
