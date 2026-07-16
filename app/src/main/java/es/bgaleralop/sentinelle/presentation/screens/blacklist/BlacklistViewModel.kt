@@ -125,17 +125,49 @@ class BlacklistViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun addWord(word: Word) {
-        val newWord =
-            word.copy(id = System.currentTimeMillis(), word = Normalizer.normalizeWord(word.word))
+    fun addWord(word: String, type: SearchType, action: BlacklistAction) {
+        val newWord = Word(
+            id = System.currentTimeMillis(),
+            accountId = 1,
+            word = Normalizer.normalizeWord(word),
+            action = action,
+            searchType = type
+        )
 
         viewModelScope.launch {
             _uiSate.update { currentState ->
+                val words = currentState.words + newWord
                 currentState.copy(
-                    words = _uiSate.value.words.plus(newWord)
+                    words = words
                 )
             }
+
+            updateCurrentsList(_uiSate.value.query)
         }
+
+    }
+
+    fun changeSearchType(id: Long) {
+        viewModelScope.launch {
+            var newWord = _uiSate.value.words.first { it.id == id }
+            newWord = newWord.copy(searchType = changeSearchType(newWord.searchType))
+            val words = _uiSate.value.words.map {
+                if (it.id == id) newWord else it
+            }
+
+            _uiSate.update { currentState ->
+                currentState.copy(
+                    words = words
+                )
+            }
+
+            updateCurrentsList(_uiSate.value.query)
+        }
+    }
+
+    private fun changeSearchType(current: SearchType): SearchType = when (current) {
+        SearchType.EXACT -> SearchType.CONTAINING
+        SearchType.CONTAINING -> SearchType.EXACT
     }
 }
 

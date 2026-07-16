@@ -51,6 +51,7 @@ import es.bgaleralop.sentinelle.domain.model.Word
 fun KeyWordsTabContent(
     words: List<Word>,
     onDelete: (Long) -> Unit,
+    onChangeFilter: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -58,7 +59,7 @@ fun KeyWordsTabContent(
         modifier = modifier.padding(bottom = 48.dp)
     ) {
         items(words) { word ->
-            KeywordCard(word, onDelete = onDelete)
+            KeywordCard(word, onDelete = onDelete, onChangeFilter = onChangeFilter)
         }
     }
 }
@@ -70,7 +71,12 @@ fun KeyWordsTabContent(
  * Composable que renderiza cada una de las tarjetas de una palabra.
  */
 @Composable
-fun KeywordCard(word: Word, onDelete: (Long) -> Unit, modifier: Modifier = Modifier) {
+fun KeywordCard(
+    word: Word,
+    onDelete: (Long) -> Unit,
+    onChangeFilter: (Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
     ElevatedCard(
         modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp),
@@ -98,7 +104,7 @@ fun KeywordCard(word: Word, onDelete: (Long) -> Unit, modifier: Modifier = Modif
 
             FilterChip(
                 selected = false,
-                onClick = { onDelete(word.id) },
+                onClick = { onChangeFilter(word.id) },
                 label = {
                     Text(
                         text = word.searchType.name,

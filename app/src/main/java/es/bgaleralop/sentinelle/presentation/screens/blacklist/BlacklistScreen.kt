@@ -20,22 +20,29 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import es.bgaleralop.sentinelle.presentation.screens.blacklist.components.AddWordForm
 import es.bgaleralop.sentinelle.presentation.screens.blacklist.components.BlacklistUsersScreen
 import es.bgaleralop.sentinelle.presentation.screens.blacklist.components.KeyWordsTabContent
 import es.bgaleralop.sentinelle.presentation.screens.commons.MySearchBar
@@ -51,6 +58,8 @@ import kotlinx.coroutines.launch
  */
 
 val viewModel = BlacklistViewModel()
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BlacklistScreen(
     modifier: Modifier = Modifier,
@@ -61,14 +70,16 @@ fun BlacklistScreen(
     val uiState by viewModel.uiSate.collectAsState()
 
     val pagerState = rememberPagerState(initialPage = 0) { 2 }
-
     val coroutineScope = rememberCoroutineScope()
     val tabs = listOf("Palabras", "Usuarios")
+
+    val sheetState = rememberModalBottomSheetState()
+    var showSheet by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = { SecondaryScreenTopAppBar(title = "Lista Negra", onGoBack = onGoBack) },
         floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
+            FloatingActionButton(onClick = { showSheet = true }) {
                 Icon(Icons.Default.Add, null)
             }
         },
@@ -107,9 +118,27 @@ fun BlacklistScreen(
                 when (page) {
                     0 -> KeyWordsTabContent(
                         words = uiState.filteredWords,
-                        onDelete = { id -> viewModel.deleteWord(id) }
+                        onDelete = { id -> viewModel.deleteWord(id) },
+                        onChangeFilter = { id -> viewModel.changeSearchType(id) }
                     )
                     1 -> BlacklistUsersScreen()
+                }
+            }
+        }
+
+        if (showSheet) {
+            ModalBottomSheet(
+                onDismissRequest = { showSheet = false },
+                sheetState = sheetState,
+            ) {
+                when (pagerState.currentPage) {
+                    0 -> AddWordForm(
+                        onDismiss = { showSheet = false },
+                        onSave = { word, type, action ->
+                            viewModel.addWord(word = word, type = type, action = action)
+                            showSheet = false
+                        }
+                    )
                 }
             }
         }
