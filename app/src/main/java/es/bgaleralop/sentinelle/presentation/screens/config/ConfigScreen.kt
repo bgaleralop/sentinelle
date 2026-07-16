@@ -136,7 +136,7 @@ fun ConfigScreenContent(
                     action = { onUpdateConfigOption(FilterOption.LINKS) }
                 )
                 ConfigOptionCardSwitch(
-                    title = "Euristica Avanzada",
+                    title = "Heurística Avanzada",
                     description = "Comprueba variaciones tipográficas.",
                     isEnabled = state.isAdvanceOptionEnabled,
                     checked = state.isAdvanceMatchedActivated,
