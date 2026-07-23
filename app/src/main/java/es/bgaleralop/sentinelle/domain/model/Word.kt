@@ -14,6 +14,7 @@
 package es.bgaleralop.sentinelle.domain.model
 
 import es.bgaleralop.sentinelle.domain.model.enums.BlacklistAction
+import es.bgaleralop.sentinelle.domain.model.enums.SearchType
 
 /**
  * @author Bartolomé Galera López (bgaleralop)
@@ -25,5 +26,7 @@ data class Word(
     val id: Long = 0,
     val accountId: Long,
     val word: String,
-    val action: BlacklistAction
+    val action: BlacklistAction,
+    val matches: Int = 0,
+    val searchType: SearchType = SearchType.CONTAINING
 )

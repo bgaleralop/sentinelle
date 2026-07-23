@@ -14,8 +14,8 @@
 package es.bgaleralop.sentinelle.presentation.screens.commons
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.automirrored.filled.Message
+import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -36,13 +36,13 @@ fun BottomNavigationBar(
 ) {
     NavigationBar {
         NavigationBarItem(
-            icon = { Icon(Icons.Default.Notifications, null) },
-            label = { Text("Notificaciones") },
+            icon = { Icon(Icons.Default.Insights, null) },
+            label = { Text("Insights") },
             selected = currentDestination?.hasRoute<HomeRoute>() == true,
             onClick = { navController.navigateToTab(HomeRoute) })
         NavigationBarItem(
-            icon = { Icon(Icons.Default.AccountCircle, null) },
-            label = { Text("Cuentas") },
+            icon = { Icon(Icons.AutoMirrored.Filled.Message, null) },
+            label = { Text("Comentarios") },
             selected = false,
             onClick = {})
         NavigationBarItem(

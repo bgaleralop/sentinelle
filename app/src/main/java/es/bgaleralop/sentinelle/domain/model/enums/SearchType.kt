@@ -11,32 +11,16 @@
  *
  */
 
-package es.bgaleralop.sentinelle.presentation.navigation
-
-import kotlinx.serialization.Serializable
+package es.bgaleralop.sentinelle.domain.model.enums
 
 /**
  * @author Bartolomé Galera López (bgaleralop)
- * @date 06-07-2026
+ * @date 15-07-2026
  *
- * Archivo que contiene las rutas para la navegación.
+ * Enumeración que recoge los diferentes tipos de búsqueda que se aplicarán a la hora de filtrar una
+ * palabra.
  */
-
-// --- Destinos Principales (Bottom Bar) ---
-@Serializable
-object ConfigRoute
-
-@Serializable
-object DashboardRoute
-
-@Serializable
-object HomeRoute
-
-@Serializable
-object PlansRoute
-
-@Serializable
-object AccountsRoute
-
-@Serializable
-object BlackListRoute
+enum class SearchType {
+    EXACT,
+    CONTAINING
+}

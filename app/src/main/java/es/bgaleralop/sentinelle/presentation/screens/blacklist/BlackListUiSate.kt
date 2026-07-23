@@ -11,32 +11,22 @@
  *
  */
 
-package es.bgaleralop.sentinelle.presentation.navigation
+package es.bgaleralop.sentinelle.presentation.screens.blacklist
 
-import kotlinx.serialization.Serializable
+import es.bgaleralop.sentinelle.domain.model.BannedUser
+import es.bgaleralop.sentinelle.domain.model.Word
 
 /**
  * @author Bartolomé Galera López (bgaleralop)
- * @date 06-07-2026
+ * @date 15-07-2026
  *
- * Archivo que contiene las rutas para la navegación.
+ * State for the BlacklistScreen
  */
-
-// --- Destinos Principales (Bottom Bar) ---
-@Serializable
-object ConfigRoute
-
-@Serializable
-object DashboardRoute
-
-@Serializable
-object HomeRoute
-
-@Serializable
-object PlansRoute
-
-@Serializable
-object AccountsRoute
-
-@Serializable
-object BlackListRoute
+data class BlackListUiSate(
+    val currentTab: Int = 0,
+    val query: String = "",
+    val words: List<Word> = emptyList(),
+    val bannedUsers: List<BannedUser> = emptyList(),
+    val filteredWords: List<Word> = emptyList(),
+    val filteredBannedUsers: List<BannedUser> = emptyList()
+)

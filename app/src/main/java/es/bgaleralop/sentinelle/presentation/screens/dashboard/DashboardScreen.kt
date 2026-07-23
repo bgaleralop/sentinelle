@@ -60,7 +60,7 @@ fun DashboardScreen(
     val uiState by viewModel.uiSate.collectAsState()
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
     ) {
         when (val state = uiState) {
@@ -76,7 +76,7 @@ fun DashboardScreen(
                 modifier = Modifier.align(Alignment.Center)
             )
 
-            is DashboardUiState.Success -> DashboardContent(state = state)
+            is DashboardUiState.Success -> DashboardContent(state = fakeDashboardSuccessState)
         }
     }
 }
