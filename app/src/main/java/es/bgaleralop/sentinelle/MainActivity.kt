@@ -17,15 +17,27 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import es.bgaleralop.sentinelle.presentation.screens.MainScreen
+import es.bgaleralop.sentinelle.presentation.screens.dashboard.DashboardUiState
+import es.bgaleralop.sentinelle.presentation.screens.dashboard.DashboardViewModel
 import es.bgaleralop.sentinelle.presentation.theme.SentinelleTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
 
+    private val dashboardViewModel: DashboardViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        splashScreen.setKeepOnScreenCondition {
+            dashboardViewModel.uiSate.value is DashboardUiState.Loading
+        }
+
         enableEdgeToEdge()
         setContent {
             SentinelleTheme {

@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     // Navegacion
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.kotlinx.serialization.json)
     // Testing
     testImplementation(libs.junit)
